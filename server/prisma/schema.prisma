@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  role         String   @default("ADMIN") // SUPERADMIN | ADMIN
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
+model Teacher {
+  id             String   @id @default(uuid())
+  name           String
+  title          String
+  specialization String
+  experience     String
+  bio            String
+  avatarUrl      String?  @map("avatar_url")
+  iconName       String   @default("Heart") @map("icon_name")
+  colorTheme     String   @default("primary") @map("color_theme")
+  displayOrder   Int      @default(0) @map("display_order")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive, displayOrder])
+
+  @@map("teachers")
+}
+
+model Program {
+  id           String   @id @default(uuid())
+  title        String
+  gradeRange   String   @map("grade_range")
+  iconName     String   @default("BookOpen") @map("icon_name")
+  description  String
+  themeConfig  Json     @map("theme_config")
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive, displayOrder])
+
+  @@map("programs")
+}
+
+model FeeTier {
+  id           String   @id @default(uuid())
+  tierName     String   @map("tier_name")
+  grades       String
+  monthlyFee   Int      @map("monthly_fee")
+  annualFee    Int      @map("annual_fee")
+  isPopular    Boolean  @default(false) @map("is_popular")
+  borderColor  String   @default("border-brand-indigo") @map("border_color")
+  bgColor      String   @default("bg-brand-indigo") @map("bg_color")
+  features     Json
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive, displayOrder])
+
+  @@map("fee_tiers")
+}
+
+model Testimonial {
+  id           String   @id @default(uuid())
+  parentName   String   @map("parent_name")
+  roleDesc     String   @map("role_desc")
+  content      String
+  imageUrl     String?  @map("image_url")
+  rating       Int      @default(5)
+  isApproved   Boolean  @default(false) @map("is_approved")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isApproved, displayOrder])
+
+  @@map("testimonials")
+}
+
+model GalleryItem {
+  id           String   @id @default(uuid())
+  imageUrl     String   @map("image_url")
+  altText      String   @map("alt_text")
+  category     String   // Campus | Activities | Events | Sports
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive, category])
+
+  @@map("gallery_items")
+}
+
+model Faq {
+  id           String   @id @default(uuid())
+  question     String
+  answer       String
+  displayOrder Int      @default(0) @map("display_order")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive, displayOrder])
+
+  @@map("faqs")
+}
+
+model ContactSubmission {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  message    String
+  status     String   @default("NEW") // NEW | READ | REPLIED
+  adminNotes String?  @map("admin_notes")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+
+  @@map("contact_submissions")
+}
+
+model AdmissionInquiry {
+  id           String   @id @default(uuid())
+  studentName  String   @map("student_name")
+  parentName   String   @map("parent_name")
+  email        String
+  phone        String
+  gradeApplying String  @map("grade_applying")
+  message      String?
+  status       String   @default("NEW") // NEW | CONTACTED | ENROLLED | REJECTED
+  adminNotes   String?  @map("admin_notes")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+
+  @@map("admission_inquiries")
+}
+
+model SiteSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  group     String   @default("general")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([group])
+
+  @@map("site_settings")
+}

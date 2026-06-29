@@ -1,0 +1,6 @@
+{
+  "name": "WonderKids",
+  "description": "A modern and playful landing page for a kindergarten and preschool.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
