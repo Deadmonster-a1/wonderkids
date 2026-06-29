@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:4000/api';
+const API_URL = '/api';
 
 export function useFetch<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null);
