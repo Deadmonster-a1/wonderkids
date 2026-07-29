@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { handle } from '@hono/node-server/vercel';
+import { handle } from 'hono/vercel';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
 import { PrismaClient } from '@prisma/client';
@@ -17,7 +17,7 @@ export type Env = {
   };
 };
 
-const app = new Hono<Env>();
+export const app = new Hono<Env>();
 
 // Initialize Prisma directly (No Cloudflare workers Edge adapters needed!)
 const prisma = new PrismaClient();

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite --port=5173 --host=0.0.0.0\" \"npx tsx api/index.ts\"",
+    "dev": "concurrently \"vite --port=5173 --host=0.0.0.0\" \"npx tsx api/local.ts\"",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
