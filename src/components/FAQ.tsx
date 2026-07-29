@@ -92,7 +92,7 @@ export default function FAQ() {
 
         {/* Contact CTA */}
         <div className="text-center bg-gradient-to-br from-brand-indigo to-brand-violet rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 border-4 md:border-8 border-white/20 flex flex-col items-center shadow-2xl relative overflow-hidden group">
-          <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           <h3 className="font-display-sm text-2xl md:text-3xl font-black text-white mb-2 drop-shadow-sm">Still have questions?</h3>
           <p className="text-brand-indigo-100 font-medium mb-6 md:mb-8 text-sm md:text-base">Our admissions team is here to help you.</p>
           <Link
