@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export function useFetch<T>(endpoint: string) {
   const [data, setData] = useState<T | null>(null);
