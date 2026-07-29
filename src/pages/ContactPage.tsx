@@ -134,7 +134,7 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="bg-white dark:bg-brand-navy/95 p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-[0_20px_50px_rgba(0,_0,_0,_0.05)] border-4 md:border-[6px] border-slate-100 dark:border-white/10 h-full relative"
+            className="bg-slate-50 dark:bg-brand-navy/95 p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-[0_20px_50px_rgba(0,_0,_0,_0.05)] border-4 md:border-[6px] border-white dark:border-white/10 h-full relative"
           >
             {submitted ? (
               <motion.div
@@ -174,7 +174,7 @@ export default function ContactPage() {
                       id="contact-name"
                       value={form.name}
                       onChange={e => setForm({ ...form, name: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 ${errors.name ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-primary/50 focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/20'}`}
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 shadow-sm ${errors.name ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:shadow-md focus:border-primary focus:shadow-md focus:ring-4 focus:ring-primary/20'}`}
                       placeholder="Jane Doe"
                       type="text"
                     />
@@ -189,7 +189,7 @@ export default function ContactPage() {
                       id="contact-email"
                       value={form.email}
                       onChange={e => setForm({ ...form, email: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 ${errors.email ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-secondary/50 focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/20'}`}
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 shadow-sm ${errors.email ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-secondary/50 hover:shadow-md focus:border-secondary focus:shadow-md focus:ring-4 focus:ring-secondary/20'}`}
                       placeholder="hello@example.com"
                       type="email"
                     />
@@ -204,7 +204,7 @@ export default function ContactPage() {
                       id="contact-message"
                       value={form.message}
                       onChange={e => setForm({ ...form, message: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 h-32 md:h-40 resize-none ${errors.message ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-tertiary/50 focus:border-tertiary focus:bg-white focus:ring-4 focus:ring-tertiary/20'}`}
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 h-32 md:h-40 resize-none shadow-sm ${errors.message ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-tertiary/50 hover:shadow-md focus:border-tertiary focus:shadow-md focus:ring-4 focus:ring-tertiary/20'}`}
                       placeholder="How can we help you?"
                     />
                     {errors.message && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-2">{errors.message}</p>}
