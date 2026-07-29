@@ -181,8 +181,8 @@ export default function ProgramsPage() {
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-12 mb-16 md:mb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
           
           {/* Sticky Sidebar */}
-          <div className="lg:col-span-4 relative hidden lg:block">
-            <div className="sticky top-40 bg-white/50 dark:bg-brand-navy/50 glass-dark p-10 rounded-[3rem] border border-white/20">
+          <div className="lg:col-span-4 hidden lg:block sticky top-32 self-start h-max z-10">
+            <div className="bg-white/50 dark:bg-brand-navy/50 glass-dark p-10 rounded-[3rem] border border-white/20">
               <h2 className="font-headline-md text-3xl font-bold text-primary mb-8">Journey Map</h2>
               
               <div className="flex flex-col gap-6 relative">
