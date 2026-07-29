@@ -14,7 +14,7 @@ interface Testimonial {
 }
 
 export default function Testimonials() {
-  const { data: testimonialsData, loading, error } = useFetch<Testimonial[]>('/testimonials');
+  const { data: testimonialsData, loading, error } = useFetch<Testimonial[]>('Testimonial');
   const testimonials = testimonialsData || [];
   
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +39,7 @@ export default function Testimonials() {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, type: 'spring', bounce: 0.3 },
+      transition: { duration: 0.6, type: 'spring' as const, bounce: 0.3 },
     },
     exit: (direction: number) => ({
       x: direction < 0 ? 100 : -100,

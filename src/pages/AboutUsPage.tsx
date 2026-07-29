@@ -49,7 +49,7 @@ export default function AboutUsPage() {
           <TiltCard className="h-full">
             <div className="glass bg-secondary/90 rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 flex flex-col justify-center items-center text-center shadow-2xl h-full border-4 md:border-8 border-white/50 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent"></div>
-              <StatCard value={15} suffix="+" label="Years of Excellence" color="white" duration={2} />
+              <StatCard value={15} suffix="+" label="Years of Excellence" color="primary" duration={2} />
               <div className="mt-4 w-12 md:w-16 h-1.5 bg-white/50 rounded-full" />
               <p className="text-white text-sm md:text-base mt-4 font-bold tracking-wide uppercase">Trusted since 2012</p>
             </div>
@@ -58,7 +58,7 @@ export default function AboutUsPage() {
           <TiltCard className="h-full">
             <div className="glass bg-tertiary/90 rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 flex flex-col justify-center items-center text-center shadow-2xl border-4 md:border-8 border-white/50 relative overflow-hidden h-full">
               <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent"></div>
-              <StatCard value={1200} suffix="+" label="Students Enrolled" color="white" duration={2.5} />
+              <StatCard value={1200} suffix="+" label="Students Enrolled" color="secondary" duration={2.5} />
               <div className="mt-4 w-12 md:w-16 h-1.5 bg-white/50 rounded-full" />
               <p className="text-white text-sm md:text-base mt-4 font-bold tracking-wide uppercase">Nursery to Grade 10!</p>
             </div>

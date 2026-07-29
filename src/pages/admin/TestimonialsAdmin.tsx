@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function TestimonialsAdmin() {
   const [items, setItems] = useState<any[]>([]);
@@ -13,20 +14,16 @@ export default function TestimonialsAdmin() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/admin/testimonials', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.data || []);
-      }
+      setLoading(true);
+      const { data, error } = await supabase.from('Testimonial').select('*');
+      if (error) throw error;
+      setItems(data || []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -34,16 +31,13 @@ export default function TestimonialsAdmin() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await fetch(`/api/admin/testimonials/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
+      const { error } = await supabase.from('Testimonial').delete().eq('id', id);
+      if (error) throw error;
       fetchData();
     } catch (e) {
       console.error(e);
     }
   };
-
   const handleOpenModal = (item: any = null) => {
     setEditingItem(item);
     setFormData(item || {});
@@ -61,32 +55,22 @@ export default function TestimonialsAdmin() {
     setSaving(true);
     try {
       const isEdit = !!editingItem;
-      const url = isEdit ? `/api/admin/testimonials/${editingItem.id}` : `/api/admin/testimonials`;
-      const method = isEdit ? 'PUT' : 'POST';
-      
-      // Parse numbers if necessary based on model type
       const payload = { ...formData };
       
-      if (payload.rating) payload.rating = Number(payload.rating);
+      let error;
+      if (isEdit) {
+        const { error: updateError } = await supabase.from('Testimonial').update(payload).eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase.from('Testimonial').insert([payload]);
+        error = insertError;
+      }
       
-      
-      // Parse JSON fields
-      
-
-      const res = await fetch(url, {
-        method,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      if (res.ok) {
+      if (!error) {
         handleCloseModal();
         fetchData();
       } else {
-        alert('Failed to save');
+        alert('Failed to save: ' + error.message);
       }
     } catch (e) {
       console.error(e);

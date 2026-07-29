@@ -5,7 +5,8 @@ import { useFetch } from '../hooks/useApi';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { data: settings } = useFetch<Record<string, string>>('/settings');
+  const { data: settingsArray } = useFetch<any[]>('SiteSetting');
+  const settings = settingsArray?.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.value }), {}) || {};
 
   const schoolName = settings?.schoolName || 'WonderKids School';
   const contactEmail = settings?.contactEmail || 'admissions@wonderkids.edu.in';
@@ -69,10 +70,10 @@ export default function Footer() {
             <h3 className="text-white font-bold text-lg mb-6">Information</h3>
             <ul className="space-y-3">
               <li><Link to="/contact" className="hover:text-brand-indigo transition-colors">Contact Us</Link></li>
-              <li><a href="#" className="hover:text-brand-indigo transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-brand-indigo transition-colors">Mandatory Disclosure</a></li>
+              <li><Link to="/" className="hover:text-brand-indigo transition-colors">Careers</Link></li>
+              <li><Link to="/" className="hover:text-brand-indigo transition-colors">Mandatory Disclosure</Link></li>
               <li><Link to="/privacy-policy" className="hover:text-brand-indigo transition-colors">Privacy Policy</Link></li>
-              <li><a href="#" className="hover:text-brand-indigo transition-colors">Terms of Service</a></li>
+              <li><Link to="/" className="hover:text-brand-indigo transition-colors">Terms of Service</Link></li>
               <li><Link to="/admin/login" className="hover:text-brand-indigo transition-colors">Admin Login</Link></li>
             </ul>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function ProgramsAdmin() {
   const [items, setItems] = useState<any[]>([]);
@@ -13,20 +14,16 @@ export default function ProgramsAdmin() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/admin/programs', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.data || []);
-      }
+      setLoading(true);
+      const { data, error } = await supabase.from('Program').select('*');
+      if (error) throw error;
+      setItems(data || []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -34,16 +31,13 @@ export default function ProgramsAdmin() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await fetch(`/api/admin/programs/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
+      const { error } = await supabase.from('Program').delete().eq('id', id);
+      if (error) throw error;
       fetchData();
     } catch (e) {
       console.error(e);
     }
   };
-
   const handleOpenModal = (item: any = null) => {
     setEditingItem(item);
     setFormData(item || {});
@@ -61,40 +55,22 @@ export default function ProgramsAdmin() {
     setSaving(true);
     try {
       const isEdit = !!editingItem;
-      const url = isEdit ? `/api/admin/programs/${editingItem.id}` : `/api/admin/programs`;
-      const method = isEdit ? 'PUT' : 'POST';
-      
-      // Parse numbers if necessary based on model type
       const payload = { ...formData };
       
-      
-      // Parse JSON fields
-      
-      if (payload.themeConfig && typeof payload.themeConfig === 'string') {
-        try {
-          payload.themeConfig = JSON.parse(payload.themeConfig);
-        } catch(e) {
-          payload.themeConfig = payload.themeConfig.split(',').map(s => s.trim());
-        }
-      } else if (!payload.themeConfig) {
-        payload.themeConfig = [];
+      let error;
+      if (isEdit) {
+        const { error: updateError } = await supabase.from('Program').update(payload).eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase.from('Program').insert([payload]);
+        error = insertError;
       }
       
-
-      const res = await fetch(url, {
-        method,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      if (res.ok) {
+      if (!error) {
         handleCloseModal();
         fetchData();
       } else {
-        alert('Failed to save');
+        alert('Failed to save: ' + error.message);
       }
     } catch (e) {
       console.error(e);

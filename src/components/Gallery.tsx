@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { useFetch } from '../hooks/useApi';
 import TiltCard from './ui/TiltCard';
+import { useFetch } from '../hooks/useApi';
 
 type GalleryCategory = 'All' | 'Campus' | 'Activities' | 'Events' | 'Sports';
 
@@ -15,9 +15,19 @@ interface GalleryImage {
   imageUrl: string;
 }
 
+const FALLBACK_GALLERY: GalleryImage[] = [
+  { id: '1', title: 'Campus View', category: 'Campus', imageUrl: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?q=80&w=600&auto=format&fit=crop' },
+  { id: '2', title: 'Science Fair', category: 'Events', imageUrl: 'https://images.unsplash.com/photo-1564410267841-915d8e4d71ea?q=80&w=600&auto=format&fit=crop' },
+  { id: '3', title: 'Art Class', category: 'Activities', imageUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600&auto=format&fit=crop' },
+  { id: '4', title: 'Sports Meet', category: 'Sports', imageUrl: 'https://images.unsplash.com/photo-1526676037777-05a232554f77?q=80&w=600&auto=format&fit=crop' },
+  { id: '5', title: 'Annual Day', category: 'Events', imageUrl: 'https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=600&auto=format&fit=crop' },
+  { id: '6', title: 'Library', category: 'Campus', imageUrl: 'https://images.unsplash.com/photo-1568667256549-094345857637?q=80&w=600&auto=format&fit=crop' },
+  { id: '7', title: 'Music Room', category: 'Activities', imageUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=600&auto=format&fit=crop' },
+  { id: '8', title: 'Basketball Match', category: 'Sports', imageUrl: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=600&auto=format&fit=crop' }
+];
+
 export default function Gallery() {
-  const { data: galleryItemsData, loading, error } = useFetch<GalleryImage[]>('/gallery');
-  const galleryItems = galleryItemsData || [];
+  const { data: galleryItems, loading } = useFetch<GalleryImage[]>('GalleryItem', FALLBACK_GALLERY);
 
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('All');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -80,61 +90,53 @@ export default function Gallery() {
         </div>
 
         {/* Masonry grid */}
-        {loading ? (
-          <div className="text-center py-12 text-brand-slate">Loading gallery...</div>
-        ) : error ? (
-          <div className="text-center py-12 text-red-500">Failed to load gallery images.</div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-12 text-brand-slate">No images found in this category.</div>
-        ) : (
-          <div className="columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
-                  transition={{ duration: 0.4, delay: (i % 8) * 0.05 }}
-                  className="break-inside-avoid"
-                  onClick={() => openLightbox(i)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View ${item.title}`}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      openLightbox(i);
-                    }
-                  }}
-                >
-                  <TiltCard maxRotation={4} scale={1.03}>
-                    <div className="relative group cursor-pointer overflow-hidden rounded-[1.5rem] md:rounded-[2rem] border-4 md:border-8 border-white/80 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500">
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-full h-auto block transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      {/* Hover overlay */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-brand-navy/50 backdrop-blur-[2px]">
-                        <motion.div 
-                          className="w-14 h-14 rounded-[1rem] bg-white/90 shadow-xl flex items-center justify-center border-4 border-white"
-                          initial={{ scale: 0 }}
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          animate={{ scale: 1 }}
-                        >
-                          <ZoomIn className="w-6 h-6 text-brand-indigo" />
-                        </motion.div>
-                      </div>
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((item, i) => (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                transition={{ duration: 0.4, delay: (i % 8) * 0.05 }}
+                className="break-inside-avoid"
+                onClick={() => openLightbox(i)}
+                role="button"
+                tabIndex={0}
+                aria-label={`View ${item.title}`}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(i);
+                  }
+                }}
+              >
+                <TiltCard maxRotation={4} scale={1.03}>
+                  <div className="relative group cursor-pointer overflow-hidden rounded-[1.5rem] md:rounded-[2rem] border-4 md:border-8 border-white/80 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-brand-navy/50 backdrop-blur-[2px]">
+                      <motion.div 
+                        className="w-14 h-14 rounded-[1rem] bg-white/90 shadow-xl flex items-center justify-center border-4 border-white"
+                        initial={{ scale: 0 }}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        animate={{ scale: 1 }}
+                      >
+                        <ZoomIn className="w-6 h-6 text-brand-indigo" />
+                      </motion.div>
                     </div>
-                  </TiltCard>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        )}
+                  </div>
+                </TiltCard>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Lightbox */}

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
 import { LayoutDashboard, Users, Image as ImageIcon, CreditCard, MessageSquare, HelpCircle, Settings, LogOut, FileText, Inbox, Mail, Megaphone, Globe } from 'lucide-react';
 
 const navItems = [
@@ -21,13 +22,13 @@ export default function AdminLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!localStorage.getItem('adminToken')) {
-      navigate('/admin/login');
-    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) navigate('/admin/login');
+    });
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     navigate('/admin/login');
   };
 

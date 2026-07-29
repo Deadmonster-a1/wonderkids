@@ -4,10 +4,10 @@ import { Users, FileText, Image as ImageIcon, MessageSquare, Mail, UserPlus } fr
 import { Link } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const { data: teachers } = useFetch<any[]>('/teachers');
-  const { data: programs } = useFetch<any[]>('/programs');
-  const { data: gallery } = useFetch<any[]>('/gallery');
-  const { data: testimonials } = useFetch<any[]>('/testimonials');
+  const { data: teachers } = useFetch<any[]>('Teacher');
+  const { data: programs } = useFetch<any[]>('Program');
+  const { data: gallery } = useFetch<any[]>('GalleryItem');
+  const { data: testimonials } = useFetch<any[]>('Testimonial');
 
   const stats = [
     { title: 'Total Teachers', value: teachers?.length || 0, icon: <Users className="w-8 h-8 text-blue-500" />, path: '/admin/teachers' },

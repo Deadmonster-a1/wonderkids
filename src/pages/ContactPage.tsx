@@ -7,6 +7,7 @@ import WaveDivider from '../components/WaveDivider';
 import PageHero3D from '../components/PageHero3D';
 import TiltCard from '../components/ui/TiltCard';
 import { useSeo } from '../hooks/useSeo';
+import { submitPost } from '../hooks/useApi';
 
 export default function ContactPage() {
   useSeo({
@@ -34,22 +35,7 @@ export default function ContactPage() {
     setSubmitting(true);
     
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      });
-      
-      const data = await res.json().catch(() => null);
-      
-      if (!res.ok) {
-        let errorMessage = data?.message || data?.error || 'Failed to send message';
-        if (data?.details && Array.isArray(data.details)) {
-          errorMessage += ': ' + data.details.map((d: any) => d.message).join(', ');
-        }
-        throw new Error(errorMessage);
-      }
-      
+      await submitPost('ContactSubmission', form);
       setSubmitted(true);
     } catch (err: any) {
       setApiError(err.message || 'Something went wrong. Please try again.');
@@ -113,17 +99,7 @@ export default function ContactPage() {
               ))}
             </div>
 
-            {/* Fun placeholder map card */}
-            <div className="relative z-10 bg-white/10 backdrop-blur-lg border border-white/20 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden h-36 md:h-48 flex items-center justify-center shadow-lg hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 cursor-pointer group mt-4">
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cartographer.png')] opacity-20 pointer-events-none" />
-              <div className="text-center relative z-10">
-                <MapPin className="w-8 md:w-12 h-8 md:h-12 mx-auto mb-2 md:mb-3 text-tertiary opacity-90 group-hover:scale-110 group-hover:-translate-y-1 transition-transform drop-shadow-md" />
-                <p className="text-white text-sm md:text-base font-bold tracking-widest uppercase font-label-caps">123 Magic Lane</p>
-                <span className="text-xs md:text-sm text-white font-bold mt-3 inline-block bg-white/20 hover:bg-white/30 backdrop-blur-md px-5 py-2 rounded-full transition-colors border border-white/30">
-                  Open in Maps &rarr;
-                </span>
-              </div>
-            </div>
+
           </motion.div>
         </TiltCard>
 

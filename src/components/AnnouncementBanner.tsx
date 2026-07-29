@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Megaphone, X, Calendar, AlertTriangle, CheckCircle, Info, ChevronRight, ChevronLeft } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface Announcement {
   id: string;
@@ -18,13 +19,11 @@ export default function AnnouncementPopup() {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await fetch('/api/announcements');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.data && data.data.length > 0) {
-            setAnnouncements(data.data);
-            setIsVisible(true);
-          }
+        const { data, error } = await supabase.from('Announcement').select('*');
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setAnnouncements(data);
+          setIsVisible(true);
         }
       } catch (err) {
         console.error('Failed to fetch announcements:', err);

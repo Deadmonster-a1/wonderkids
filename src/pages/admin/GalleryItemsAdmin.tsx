@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function GalleryItemsAdmin() {
   const [items, setItems] = useState<any[]>([]);
@@ -13,20 +14,16 @@ export default function GalleryItemsAdmin() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/admin/gallery', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.data || []);
-      }
+      setLoading(true);
+      const { data, error } = await supabase.from('GalleryItem').select('*');
+      if (error) throw error;
+      setItems(data || []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -34,16 +31,13 @@ export default function GalleryItemsAdmin() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await fetch(`/api/admin/gallery/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
+      const { error } = await supabase.from('GalleryItem').delete().eq('id', id);
+      if (error) throw error;
       fetchData();
     } catch (e) {
       console.error(e);
     }
   };
-
   const handleOpenModal = (item: any = null) => {
     setEditingItem(item);
     setFormData(item || {});
@@ -61,30 +55,22 @@ export default function GalleryItemsAdmin() {
     setSaving(true);
     try {
       const isEdit = !!editingItem;
-      const url = isEdit ? `/api/admin/gallery/${editingItem.id}` : `/api/admin/gallery`;
-      const method = isEdit ? 'PUT' : 'POST';
-      
-      // Parse numbers if necessary based on model type
       const payload = { ...formData };
       
+      let error;
+      if (isEdit) {
+        const { error: updateError } = await supabase.from('GalleryItem').update(payload).eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase.from('GalleryItem').insert([payload]);
+        error = insertError;
+      }
       
-      // Parse JSON fields
-      
-
-      const res = await fetch(url, {
-        method,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      if (res.ok) {
+      if (!error) {
         handleCloseModal();
         fetchData();
       } else {
-        alert('Failed to save');
+        alert('Failed to save: ' + error.message);
       }
     } catch (e) {
       console.error(e);

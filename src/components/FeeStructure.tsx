@@ -19,7 +19,7 @@ interface FeeTierType {
 
 export default function FeeStructure() {
   const [isAnnual, setIsAnnual] = useState(true);
-  const { data: feeData, loading, error } = useFetch<FeeTierType[]>('/fees');
+  const { data: feeData, loading, error } = useFetch<FeeTierType[]>('FeeTier');
 
   return (
     <section className="bg-brand-light dark:bg-brand-navy py-24 relative z-10">

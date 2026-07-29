@@ -9,6 +9,8 @@ import PageHero3D from '../components/PageHero3D';
 import TiltCard from '../components/ui/TiltCard';
 import { useSeo } from '../hooks/useSeo';
 
+import { submitPost } from '../hooks/useApi';
+
 const steps = [
   {
     icon: <MapPin className="w-10 h-10" />,
@@ -176,22 +178,7 @@ function AdmissionForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('/api/admissions/inquire', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      });
-      
-      const data = await res.json().catch(() => null);
-      
-      if (!res.ok) {
-        let errorMessage = data?.message || data?.error || 'Failed to submit application';
-        if (data?.details && Array.isArray(data.details)) {
-          errorMessage += ': ' + data.details.map((d: any) => d.message).join(', ');
-        }
-        throw new Error(errorMessage);
-      }
-      
+      await submitPost('AdmissionInquiry', form);
       setSubmitted(true);
     } catch (err: any) {
       alert(err.message || 'Something went wrong. Please try again.');

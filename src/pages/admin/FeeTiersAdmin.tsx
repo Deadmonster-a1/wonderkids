@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function FeeTiersAdmin() {
   const [items, setItems] = useState<any[]>([]);
@@ -13,20 +14,16 @@ export default function FeeTiersAdmin() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/admin/fees', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.data || []);
-      }
+      setLoading(true);
+      const { data, error } = await supabase.from('FeeTier').select('*');
+      if (error) throw error;
+      setItems(data || []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -34,16 +31,13 @@ export default function FeeTiersAdmin() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await fetch(`/api/admin/fees/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
+      const { error } = await supabase.from('FeeTier').delete().eq('id', id);
+      if (error) throw error;
       fetchData();
     } catch (e) {
       console.error(e);
     }
   };
-
   const handleOpenModal = (item: any = null) => {
     setEditingItem(item);
     setFormData(item || {});
@@ -61,44 +55,22 @@ export default function FeeTiersAdmin() {
     setSaving(true);
     try {
       const isEdit = !!editingItem;
-      const url = isEdit ? `/api/admin/fees/${editingItem.id}` : `/api/admin/fees`;
-      const method = isEdit ? 'PUT' : 'POST';
-      
-      // Parse numbers if necessary based on model type
       const payload = { ...formData };
       
-      if (payload.monthlyFee) payload.monthlyFee = Number(payload.monthlyFee);
-      
-      if (payload.annualFee) payload.annualFee = Number(payload.annualFee);
-      
-      
-      // Parse JSON fields
-      
-      if (payload.features && typeof payload.features === 'string') {
-        try {
-          payload.features = JSON.parse(payload.features);
-        } catch(e) {
-          payload.features = payload.features.split(',').map(s => s.trim());
-        }
-      } else if (!payload.features) {
-        payload.features = [];
+      let error;
+      if (isEdit) {
+        const { error: updateError } = await supabase.from('FeeTier').update(payload).eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase.from('FeeTier').insert([payload]);
+        error = insertError;
       }
       
-
-      const res = await fetch(url, {
-        method,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      if (res.ok) {
+      if (!error) {
         handleCloseModal();
         fetchData();
       } else {
-        alert('Failed to save');
+        alert('Failed to save: ' + error.message);
       }
     } catch (e) {
       console.error(e);

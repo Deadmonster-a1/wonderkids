@@ -6,6 +6,7 @@ export default function PrivacyPolicyPage() {
   useSeo({
     title: 'Privacy Policy - WonderKids',
     description: 'Learn about how WonderKids collects, uses, and protects your personal information.',
+    path: '/privacy-policy'
   });
 
   return (

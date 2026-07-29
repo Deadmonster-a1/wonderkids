@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, Megaphone, CheckCircle, AlertTriangle, Calendar } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function AnnouncementsAdmin() {
   const [items, setItems] = useState<any[]>([]);
@@ -21,37 +22,30 @@ export default function AnnouncementsAdmin() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/admin/announcements', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setItems(data.data || []);
-      }
+      setLoading(true);
+      const { data, error } = await supabase.from('Announcement').select('*');
+      if (error) throw error;
+      setItems(data || []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this announcement?')) return;
+    if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await fetch(`/api/admin/announcements/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
-      });
+      const { error } = await supabase.from('Announcement').delete().eq('id', id);
+      if (error) throw error;
       fetchData();
     } catch (e) {
       console.error(e);
     }
   };
-
   const handleOpenModal = (item: any = null) => {
     setEditingItem(item);
     if (item) {
@@ -103,29 +97,22 @@ export default function AnnouncementsAdmin() {
     setSaving(true);
     try {
       const isEdit = !!editingItem;
-      const url = isEdit ? `/api/admin/announcements/${editingItem.id}` : `/api/admin/announcements`;
-      const method = isEdit ? 'PUT' : 'POST';
+      const payload = { ...formData };
       
-      const payload = {
-        ...formData,
-        displayOrder: parseInt(formData.displayOrder) || 0
-      };
-
-      const res = await fetch(url, {
-        method,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-        },
-        body: JSON.stringify(payload)
-      });
+      let error;
+      if (isEdit) {
+        const { error: updateError } = await supabase.from('Announcement').update(payload).eq('id', editingItem.id);
+        error = updateError;
+      } else {
+        const { error: insertError } = await supabase.from('Announcement').insert([payload]);
+        error = insertError;
+      }
       
-      if (res.ok) {
+      if (!error) {
         handleCloseModal();
         fetchData();
       } else {
-        const err = await res.json().catch(() => ({}));
-        alert(err.error || 'Failed to save announcement');
+        alert('Failed to save: ' + error.message);
       }
     } catch (e) {
       console.error(e);

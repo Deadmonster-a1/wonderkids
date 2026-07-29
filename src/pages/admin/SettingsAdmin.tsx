@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function SettingsAdmin() {
   const [settings, setSettings] = useState<Record<string, string>>({});
@@ -40,19 +41,17 @@ export default function SettingsAdmin() {
     e.preventDefault();
     setSaving(true);
     try {
-        const payload = Object.entries(settings).map(([key, value]) => ({ key, value }));
-        await fetch('/api/admin/settings', {
-          method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('adminToken')}` 
-          },
-          body: JSON.stringify(payload)
-        });
-      alert('Settings saved successfully!');
-    } catch (e) {
+      const updates = Object.keys(settings).map(key => ({
+        key,
+        value: settings[key]
+      }));
+      // Using upsert on key (assuming 'key' is unique/primary)
+      const { error } = await supabase.from('SiteSetting').upsert(updates, { onConflict: 'key' });
+      if (error) throw error;
+      alert('Settings saved successfully');
+    } catch (e: any) {
       console.error(e);
-      alert('Failed to save settings');
+      alert('Failed to save: ' + e.message);
     } finally {
       setSaving(false);
     }

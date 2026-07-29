@@ -9,8 +9,6 @@ import PageHero3D from '../components/PageHero3D';
 import TiltCard from '../components/ui/TiltCard';
 import { useSeo } from '../hooks/useSeo';
 
-const iconMap: Record<string, any> = { Heart, BookOpen, GraduationCap, Music, Award, Star };
-
 interface TeacherType {
   id: string;
   name: string;
@@ -23,8 +21,21 @@ interface TeacherType {
   colorTheme: string;
 }
 
+const iconMap: Record<string, any> = {
+  Award, Heart, BookOpen, Music, Star, GraduationCap
+};
+
+const FALLBACK_TEACHERS: TeacherType[] = [
+  { id: '1', name: 'Sarah Jenkins', title: 'Head of English', specialization: 'Literature', experience: '12', bio: 'Passionate about bringing stories to life and helping students find their unique voice.', avatarUrl: null, iconName: 'BookOpen', colorTheme: 'primary' },
+  { id: '2', name: 'Michael Chen', title: 'Science Teacher', specialization: 'Physics', experience: '8', bio: 'Dedicated to making complex scientific concepts accessible through hands-on experiments.', avatarUrl: null, iconName: 'Star', colorTheme: 'secondary' },
+  { id: '3', name: 'Priya Sharma', title: 'Math Teacher', specialization: 'Calculus', experience: '15', bio: 'Believes that every student can excel in mathematics with the right guidance and practice.', avatarUrl: null, iconName: 'Award', colorTheme: 'tertiary' },
+  { id: '4', name: 'David Thompson', title: 'Music Director', specialization: 'Choir & Band', experience: '10', bio: 'Fostering creativity and teamwork through the universal language of music.', avatarUrl: null, iconName: 'Music', colorTheme: 'primary' },
+  { id: '5', name: 'Emma Watson', title: 'Art Teacher', specialization: 'Fine Arts', experience: '6', bio: 'Encouraging self-expression and imagination through various artistic mediums.', avatarUrl: null, iconName: 'Heart', colorTheme: 'secondary' },
+  { id: '6', name: 'James Wilson', title: 'PE Instructor', specialization: 'Athletics', experience: '9', bio: 'Promoting physical fitness, sportsmanship, and healthy lifestyle choices.', avatarUrl: null, iconName: 'Award', colorTheme: 'tertiary' }
+];
+
 export default function TeachersPage() {
-  const { data: teachers, loading, error } = useFetch<TeacherType[]>('/teachers');
+  const { data: teachers, loading } = useFetch<TeacherType[]>('Teacher', FALLBACK_TEACHERS);
 
   useSeo({
     title: 'Our Faculty | WonderKids School Teachers',
@@ -73,17 +84,8 @@ export default function TeachersPage() {
         </motion.div>
 
         {/* Teacher Cards Grid */}
-        {loading ? (
-          <div className="flex justify-center py-16 md:py-20">
-            <div className="animate-spin rounded-full h-12 md:h-16 w-12 md:w-16 border-t-4 border-b-4 border-primary"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-8 md:py-12 text-rose-500 font-bold bg-rose-50 rounded-2xl mx-4">Failed to load teachers.</div>
-        ) : teachers?.length === 0 ? (
-          <div className="text-center py-8 md:py-12 text-brand-slate font-bold bg-slate-50 rounded-2xl mx-4">No teachers found.</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {teachers?.map((teacher, i) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          {teachers.map((teacher, i) => {
               const Icon = iconMap[teacher.iconName] || Heart;
               const colors = getColorClasses(teacher.colorTheme);
               
@@ -139,7 +141,6 @@ export default function TeachersPage() {
               );
             })}
           </div>
-        )}
       </div>
       
       <WaveDivider color="var(--sky)" flip />

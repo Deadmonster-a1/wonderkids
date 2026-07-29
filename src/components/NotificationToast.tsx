@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bell, X, User, MessageSquare } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface BaseNotification {
   id: string;
@@ -26,42 +27,32 @@ export function NotificationToast() {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
 
   useEffect(() => {
-    // Connect to SSE stream
-    const eventSource = new EventSource('/api/notifications/stream');
-
-    const handleApplication = (e: MessageEvent) => {
-      try {
-        const data = JSON.parse(e.data);
-        const newNotif: AppNotification = { ...data, type: 'application' };
-        setNotifications((prev) => [...prev, newNotif]);
-        
-        setTimeout(() => {
-          setNotifications((prev) => prev.filter((n) => n.id !== newNotif.id));
-        }, 5000);
-      } catch (err) {
-        console.error('Error parsing application notification', err);
-      }
-    };
-
-    const handleContact = (e: MessageEvent) => {
-      try {
-        const data = JSON.parse(e.data);
-        const newNotif: ContactNotification = { ...data, type: 'contact' };
-        setNotifications((prev) => [...prev, newNotif]);
-        
-        setTimeout(() => {
-          setNotifications((prev) => prev.filter((n) => n.id !== newNotif.id));
-        }, 5000);
-      } catch (err) {
-        console.error('Error parsing contact notification', err);
-      }
-    };
-
-    eventSource.addEventListener('new_application', handleApplication);
-    eventSource.addEventListener('new_contact', handleContact);
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+        },
+        (payload) => {
+          if (payload.table === 'AdmissionInquiry') {
+            const data = payload.new as any;
+            const newNotif: AppNotification = { id: data.id, type: 'application', studentName: data.studentName, parentName: data.parentName, gradeApplying: data.gradeApplying };
+            setNotifications((prev) => [...prev, newNotif]);
+            setTimeout(() => setNotifications((prev) => prev.filter((n) => n.id !== newNotif.id)), 5000);
+          } else if (payload.table === 'ContactSubmission') {
+            const data = payload.new as any;
+            const newNotif: ContactNotification = { id: data.id, type: 'contact', name: data.name, email: data.email };
+            setNotifications((prev) => [...prev, newNotif]);
+            setTimeout(() => setNotifications((prev) => prev.filter((n) => n.id !== newNotif.id)), 5000);
+          }
+        }
+      )
+      .subscribe();
 
     return () => {
-      eventSource.close();
+      supabase.removeChannel(channel);
     };
   }, []);
 

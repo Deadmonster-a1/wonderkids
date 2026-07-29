@@ -2,13 +2,22 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus, MessageCircleQuestion } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useFetch } from '../hooks/useApi';
 import TiltCard from './ui/TiltCard';
+import { useFetch } from '../hooks/useApi';
 
 interface FAQItemType {
+  id?: string;
   question: string;
   answer: string;
 }
+
+const FALLBACK_FAQS: FAQItemType[] = [
+  { question: 'What are the admission requirements?', answer: 'We require a completed application form, previous school records (if applicable), and a brief interaction with the child and parents.' },
+  { question: 'What curriculum do you follow?', answer: 'We follow the CBSE curriculum enriched with modern pedagogical practices focusing on holistic development.' },
+  { question: 'What is the student-teacher ratio?', answer: 'We maintain a healthy 1:6 ratio in pre-primary and 1:15 in primary classes to ensure personalized attention.' },
+  { question: 'Do you provide transportation?', answer: 'Yes, we provide safe and secure AC transport facilities across major routes in the city.' },
+  { question: 'Are meals provided at school?', answer: 'We have an optional healthy meal plan that parents can subscribe to, providing nutritious vegetarian lunches.' }
+];
 
 function FAQItem({ faq, isOpen, onClick }: { faq: FAQItemType, isOpen: boolean, onClick: () => void }) {
   return (
@@ -46,7 +55,7 @@ function FAQItem({ faq, isOpen, onClick }: { faq: FAQItemType, isOpen: boolean, 
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const { data: faqs, loading, error } = useFetch<FAQItemType[]>('/faqs');
+  const { data: faqs, loading } = useFetch<FAQItemType[]>('Faq', FALLBACK_FAQS);
 
   return (
     <section className="bg-white dark:bg-brand-navy py-24 relative overflow-hidden">
@@ -71,22 +80,14 @@ export default function FAQ() {
         {/* FAQ Accordion */}
         <TiltCard maxRotation={2} scale={1.01}>
           <div className="bg-transparent mb-12 md:mb-20 relative z-10">
-            {loading ? (
-              <div className="p-12 text-center text-brand-slate">Loading FAQs...</div>
-            ) : error ? (
-              <div className="p-12 text-center text-red-500">Failed to load FAQs.</div>
-            ) : faqs?.length === 0 ? (
-              <div className="p-12 text-center text-brand-slate">No FAQs available at the moment.</div>
-            ) : (
-              faqs?.map((faq, index) => (
-                <FAQItem 
-                  key={index} 
-                  faq={faq} 
-                  isOpen={openIndex === index}
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                />
-              ))
-            )}
+            {faqs.map((faq, index) => (
+              <FAQItem 
+                key={index} 
+                faq={faq} 
+                isOpen={openIndex === index}
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+              />
+            ))}
           </div>
         </TiltCard>
 

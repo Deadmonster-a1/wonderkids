@@ -10,6 +10,9 @@ import './index.css';
 const originalFetch = window.fetch;
 window.fetch = async (...args) => {
   let [resource, config] = args;
+  // @ts-expect-error
+  const ENABLE_LOGS = import.meta.env.VITE_ENABLE_LOGS === 'true';
+  // @ts-expect-error
   const baseUrl = import.meta.env.VITE_API_URL || '';
   if (typeof resource === 'string' && resource.startsWith('/api')) {
     const cleanBase = baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;

@@ -294,8 +294,6 @@ export default function KidsToysScene() {
 
         <PresentationControls 
           global 
-          config={{ mass: 2, tension: 500 }} 
-          snap={{ mass: 4, tension: 1500 }} 
           rotation={[0, 0, 0]} 
           polar={[-Math.PI / 4, Math.PI / 4]} 
           azimuth={[-Math.PI / 2, Math.PI / 2]}

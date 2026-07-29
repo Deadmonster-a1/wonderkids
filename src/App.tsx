@@ -51,7 +51,6 @@ export default function App() {
       
       <main className={`relative z-10 flex-grow ${!isAdmin ? 'pt-24' : ''}`}>
         <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
-          {/* @ts-expect-error key is a valid React prop but RoutesProps doesn't explicitly include it */}
           <Routes location={location} key={location.pathname}>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
