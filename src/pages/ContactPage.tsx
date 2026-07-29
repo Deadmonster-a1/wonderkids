@@ -79,30 +79,33 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="bg-secondary/95 glass-dark rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col gap-8 md:gap-10 h-full border-4 md:border-8 border-white/30"
+            className="bg-gradient-to-br from-brand-navy to-secondary text-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(8,_112,_184,_0.3)] relative overflow-hidden flex flex-col gap-8 md:gap-10 h-full border-4 md:border-[6px] border-white/20"
           >
-            <div className="absolute top-0 right-0 w-64 md:w-80 h-64 md:h-80 bg-white/20 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none"></div>
+            {/* Background Ornaments */}
+            <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-primary/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-48 md:w-72 h-48 md:h-72 bg-tertiary/30 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
             
-            <h2 className="font-display-md text-4xl md:text-5xl font-bold relative z-10 drop-shadow-sm">Get in Touch</h2>
+            <h2 className="font-display-md text-4xl md:text-5xl font-bold relative z-10 drop-shadow-md">Get in Touch</h2>
+            <p className="text-white/80 font-medium text-lg relative z-10 -mt-4">We would love to hear from you. Drop us a line!</p>
             
-            <div className="space-y-6 md:space-y-8 relative z-10 flex-grow mt-2 md:mt-4">
+            <div className="space-y-6 md:space-y-8 relative z-10 flex-grow mt-2">
               {[
-                { icon: <MapPin className="w-8 h-8" />, text: '123 Magic Lane, Kidsville, CA 90210' },
-                { icon: <Phone className="w-8 h-8" />, text: '(555) 123-4567', href: 'tel:+15551234567' },
-                { icon: <Mail className="w-8 h-8" />, text: 'hello@wonderkids.com', href: 'mailto:hello@wonderkids.com' },
+                { icon: <MapPin className="w-7 h-7 md:w-8 md:h-8" />, text: '123 Magic Lane, Kidsville, CA 90210' },
+                { icon: <Phone className="w-7 h-7 md:w-8 md:h-8" />, text: '(555) 123-4567', href: 'tel:+15551234567' },
+                { icon: <Mail className="w-7 h-7 md:w-8 md:h-8" />, text: 'hello@wonderkids.com', href: 'mailto:hello@wonderkids.com' },
               ].map(({ icon, text, href }, i) => (
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   key={text} 
-                  className="flex items-center gap-4 md:gap-6 group"
+                  className="flex items-center gap-5 md:gap-6 group"
                 >
-                  <div className="w-12 md:w-16 h-12 md:h-16 bg-white/20 backdrop-blur-md rounded-[1rem] md:rounded-[1.5rem] flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300">
-                    <div className="scale-75 md:scale-100">{icon}</div>
+                  <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1.2rem] md:rounded-[1.5rem] flex items-center justify-center shrink-0 shadow-[inset_0_2px_4px_rgba(255,255,255,0.3)] group-hover:scale-110 group-hover:bg-white/20 group-hover:rotate-3 transition-all duration-300">
+                    <div className="text-white drop-shadow-sm">{icon}</div>
                   </div>
                   {href ? (
-                    <a href={href} className="text-lg md:text-xl font-bold font-body hover:underline hover:text-white/80 transition-colors drop-shadow-sm break-all">{text}</a>
+                    <a href={href} className="text-lg md:text-xl font-bold font-body hover:text-tertiary transition-colors drop-shadow-sm break-all">{text}</a>
                   ) : (
                     <p className="text-lg md:text-xl font-bold font-body drop-shadow-sm">{text}</p>
                   )}
@@ -111,13 +114,13 @@ export default function ContactPage() {
             </div>
 
             {/* Fun placeholder map card */}
-            <div className="relative z-10 bg-white/20 backdrop-blur-md border-2 md:border-4 border-white/30 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden h-36 md:h-48 flex items-center justify-center shadow-inner hover:bg-white/30 transition-colors cursor-pointer group">
-              <div className="absolute inset-0 bg-secondary/10 pattern-dots" />
+            <div className="relative z-10 bg-white/10 backdrop-blur-lg border border-white/20 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden h-36 md:h-48 flex items-center justify-center shadow-lg hover:bg-white/20 hover:scale-[1.02] transition-all duration-300 cursor-pointer group mt-4">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cartographer.png')] opacity-20 pointer-events-none" />
               <div className="text-center relative z-10">
-                <MapPin className="w-8 md:w-12 h-8 md:h-12 mx-auto mb-2 md:mb-3 opacity-80 group-hover:scale-110 transition-transform drop-shadow-md" />
-                <p className="text-white text-sm md:text-base font-bold tracking-wide uppercase font-label-caps">123 Magic Lane</p>
-                <span className="text-xs md:text-sm text-white/80 font-bold mt-2 inline-block bg-white/20 px-4 py-1.5 rounded-full">
-                  View Map →
+                <MapPin className="w-8 md:w-12 h-8 md:h-12 mx-auto mb-2 md:mb-3 text-tertiary opacity-90 group-hover:scale-110 group-hover:-translate-y-1 transition-transform drop-shadow-md" />
+                <p className="text-white text-sm md:text-base font-bold tracking-widest uppercase font-label-caps">123 Magic Lane</p>
+                <span className="text-xs md:text-sm text-white font-bold mt-3 inline-block bg-white/20 hover:bg-white/30 backdrop-blur-md px-5 py-2 rounded-full transition-colors border border-white/30">
+                  Open in Maps &rarr;
                 </span>
               </div>
             </div>
@@ -131,7 +134,7 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="bg-white/90 dark:bg-brand-navy/90 glass-dark p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-2xl border-4 md:border-8 border-white dark:border-white/10 h-full relative"
+            className="bg-white dark:bg-brand-navy/95 p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-[0_20px_50px_rgba(0,_0,_0,_0.05)] border-4 md:border-[6px] border-slate-100 dark:border-white/10 h-full relative"
           >
             {submitted ? (
               <motion.div
@@ -144,7 +147,7 @@ export default function ContactPage() {
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
-                  className="w-20 md:w-28 h-20 md:h-28 bg-primary border-4 border-white shadow-xl rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center"
+                  className="w-20 md:w-28 h-20 md:h-28 bg-gradient-to-tr from-primary to-secondary border-4 border-white shadow-xl rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center"
                 >
                   <CheckCircle className="w-10 md:w-16 h-10 md:h-16 text-white" />
                 </motion.div>
@@ -159,58 +162,60 @@ export default function ContactPage() {
               </motion.div>
             ) : (
               <>
-                <h2 className="font-display-sm text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-8 md:mb-10">Send a Message</h2>
+                <h2 className="font-display-sm text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-8 md:mb-10 flex items-center gap-3">
+                  Send a Message <span className="inline-block animate-bounce">👋</span>
+                </h2>
                 <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit} noValidate>
                   <div className="space-y-2 md:space-y-3">
-                    <label htmlFor="contact-name" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-4">
+                    <label htmlFor="contact-name" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-2">
                       Your Name <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="contact-name"
                       value={form.name}
                       onChange={e => setForm({ ...form, name: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-full border-4 shadow-inner text-base md:text-lg transition-all duration-300 ${errors.name ? 'border-rose-300 bg-rose-50 focus:border-rose-400' : 'bg-slate-50 dark:bg-white/5 border-transparent hover:border-primary/20 focus:border-primary focus:bg-white'}`}
-                      placeholder="Your full name"
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 ${errors.name ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-primary/50 focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/20'}`}
+                      placeholder="Jane Doe"
                       type="text"
                     />
-                    {errors.name && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-4">{errors.name}</p>}
+                    {errors.name && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-2">{errors.name}</p>}
                   </div>
                   
                   <div className="space-y-2 md:space-y-3">
-                    <label htmlFor="contact-email" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-4">
+                    <label htmlFor="contact-email" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-2">
                       Email Address <span className="text-rose-500">*</span>
                     </label>
                     <input
                       id="contact-email"
                       value={form.email}
                       onChange={e => setForm({ ...form, email: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-full border-4 shadow-inner text-base md:text-lg transition-all duration-300 ${errors.email ? 'border-rose-300 bg-rose-50 focus:border-rose-400' : 'bg-slate-50 dark:bg-white/5 border-transparent hover:border-secondary/20 focus:border-secondary focus:bg-white'}`}
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 ${errors.email ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-secondary/50 focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/20'}`}
                       placeholder="hello@example.com"
                       type="email"
                     />
-                    {errors.email && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-4">{errors.email}</p>}
+                    {errors.email && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-2">{errors.email}</p>}
                   </div>
                   
                   <div className="space-y-2 md:space-y-3">
-                    <label htmlFor="contact-message" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-4">
+                    <label htmlFor="contact-message" className="block font-label-caps text-xs md:text-sm text-brand-slate font-bold uppercase tracking-wider ml-2">
                       Message <span className="text-rose-500">*</span>
                     </label>
                     <textarea
                       id="contact-message"
                       value={form.message}
                       onChange={e => setForm({ ...form, message: e.target.value })}
-                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-[1.5rem] md:rounded-[2rem] border-4 shadow-inner text-base md:text-lg transition-all duration-300 h-32 md:h-40 resize-none ${errors.message ? 'border-rose-300 bg-rose-50 focus:border-rose-400' : 'bg-slate-50 dark:bg-white/5 border-transparent hover:border-tertiary/20 focus:border-tertiary focus:bg-white'}`}
+                      className={`w-full px-5 md:px-6 py-4 md:py-5 rounded-2xl md:rounded-3xl border-2 text-base md:text-lg outline-none transition-all duration-300 h-32 md:h-40 resize-none ${errors.message ? 'border-rose-400 bg-rose-50 focus:ring-4 focus:ring-rose-200' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-tertiary/50 focus:border-tertiary focus:bg-white focus:ring-4 focus:ring-tertiary/20'}`}
                       placeholder="How can we help you?"
                     />
-                    {errors.message && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-4">{errors.message}</p>}
+                    {errors.message && <p className="text-rose-500 text-xs md:text-sm font-bold mt-2 ml-2">{errors.message}</p>}
                   </div>
 
                   <motion.button 
-                    whileHover={{ scale: submitting ? 1 : 1.02 }}
+                    whileHover={{ scale: submitting ? 1 : 1.02, translateY: -2 }}
                     whileTap={{ scale: submitting ? 1 : 0.98 }}
                     type="submit"
                     disabled={submitting}
-                    className={`px-6 md:px-10 py-4 md:py-5 text-white font-display-sm text-xl md:text-2xl font-bold rounded-full w-full shadow-xl flex items-center justify-center gap-4 transition-all duration-300 border-4 border-white/20 mt-2 md:mt-4 ${submitting ? 'bg-primary/70 cursor-not-allowed' : 'bg-primary'}`}
+                    className={`px-6 md:px-10 py-4 md:py-5 text-white font-display-sm text-xl md:text-2xl font-bold rounded-2xl md:rounded-3xl w-full flex items-center justify-center gap-4 transition-all duration-300 shadow-[0_10px_20px_rgba(8,_112,_184,_0.3)] hover:shadow-[0_15px_30px_rgba(8,_112,_184,_0.4)] mt-4 ${submitting ? 'bg-primary/70 cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
                   >
                     {submitting ? (
                       <>Sending Magic... <Loader2 className="w-6 h-6 animate-spin" /></>
