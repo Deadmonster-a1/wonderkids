@@ -3,7 +3,9 @@ import { cors } from 'hono/cors';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
 
-import { PrismaClient } from '@prisma/client/edge';
+import { PrismaClient } from '../prisma/generated/client/wasm.js';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 export type Env = {
   Bindings: {
@@ -26,9 +28,10 @@ app.use('*', async (c, next) => {
   const corsMiddleware = cors({ origin, credentials: true });
   
   if (!c.get('prisma')) {
-    c.set('prisma', new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL
-    }));
+    const connectionString = c.env.DATABASE_URL;
+    const pool = new Pool({ connectionString });
+    const adapter = new PrismaPg(pool);
+    c.set('prisma', new PrismaClient({ adapter }));
   }
   
   return corsMiddleware(c, next);
