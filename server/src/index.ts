@@ -3,11 +3,18 @@ import { cors } from 'hono/cors';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
 
+import { PrismaClient } from '@prisma/client/edge';
+
 export type Env = {
   Bindings: {
     CORS_ORIGIN: string;
     ADMIN_EMAIL: string;
     UPLOADS: KVNamespace;
+    DATABASE_URL: string;
+  };
+  Variables: {
+    prisma: PrismaClient;
+    admin: any;
   };
 };
 
@@ -17,6 +24,13 @@ const app = new Hono<Env>();
 app.use('*', async (c, next) => {
   const origin = c.env.CORS_ORIGIN || '*';
   const corsMiddleware = cors({ origin, credentials: true });
+  
+  if (!c.get('prisma')) {
+    c.set('prisma', new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL
+    }));
+  }
+  
   return corsMiddleware(c, next);
 });
 // Routes

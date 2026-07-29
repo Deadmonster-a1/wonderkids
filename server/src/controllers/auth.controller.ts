@@ -6,7 +6,7 @@ import { signToken } from '../utils/jwt.js';
 export async function login(c: Context) {
   const { email, password } = (await c.req.json());
 
-  const admin = await prisma.admin.findUnique({ where: { email } });
+  const admin = await c.get('prisma').admin.findUnique({ where: { email } });
   if (!admin) {
     return c.json({ error: 'Invalid credentials' }, 401);
     return;

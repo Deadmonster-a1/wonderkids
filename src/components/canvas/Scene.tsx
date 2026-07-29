@@ -26,7 +26,7 @@ export default function Scene() {
         <directionalLight position={[10, 10, 5]} intensity={1} color="#ffffff" />
         <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#4338CA" />
         
-        <Environment preset="city" />
+        <ambientLight intensity={1.5} />
 
         <FloatingShapes />
         </Canvas>

@@ -12,7 +12,8 @@ window.fetch = async (...args) => {
   let [resource, config] = args;
   const baseUrl = import.meta.env.VITE_API_URL || '';
   if (typeof resource === 'string' && resource.startsWith('/api')) {
-    resource = baseUrl + resource;
+    const cleanBase = baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
+    resource = cleanBase + resource;
   }
   return originalFetch(resource, config);
 };

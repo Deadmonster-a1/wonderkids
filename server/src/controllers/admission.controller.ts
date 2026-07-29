@@ -9,7 +9,7 @@ import { templates } from '../utils/email.js';
 export async function submitInquiry(c: Context) {
   const { studentName, parentName, email, phone, gradeApplying, message } = (await c.req.json());
 
-  const inquiry = await prisma.admissionInquiry.create({
+  const inquiry = await c.get('prisma').admissionInquiry.create({
     data: { studentName, parentName, email, phone, gradeApplying, message },
   });
 
@@ -40,7 +40,7 @@ export async function submitInquiry(c: Context) {
 
 // ADMIN: Get all admission inquiries
 export async function getInquiries(c: Context) {
-  const inquiries = await prisma.admissionInquiry.findMany({
+  const inquiries = await c.get('prisma').admissionInquiry.findMany({
     orderBy: { createdAt: 'desc' },
   });
   return c.json({ data: inquiries });
@@ -48,7 +48,7 @@ export async function getInquiries(c: Context) {
 
 // ADMIN: Export all admission inquiries as CSV (opens in Excel)
 export async function exportInquiries(c: Context) {
-  const inquiries = await prisma.admissionInquiry.findMany({
+  const inquiries = await c.get('prisma').admissionInquiry.findMany({
     orderBy: { createdAt: 'desc' },
   });
 
@@ -76,7 +76,7 @@ export async function updateInquiry(c: Context) {
   const { id } = c.req.param();
   const { status, adminNotes } = (await c.req.json());
 
-  const inquiry = await prisma.admissionInquiry.update({
+  const inquiry = await c.get('prisma').admissionInquiry.update({
     where: { id },
     data: { status, adminNotes },
   });

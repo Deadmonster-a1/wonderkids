@@ -9,7 +9,7 @@ import { templates } from '../utils/email.js';
 export async function submitContact(c: Context) {
   const { name, email, message } = (await c.req.json());
 
-  const submission = await prisma.contactSubmission.create({
+  const submission = await c.get('prisma').contactSubmission.create({
     data: { name, email, message },
   });
 
@@ -39,7 +39,7 @@ export async function submitContact(c: Context) {
 
 // ADMIN: Get all contact submissions
 export async function getContacts(c: Context) {
-  const contacts = await prisma.contactSubmission.findMany({
+  const contacts = await c.get('prisma').contactSubmission.findMany({
     orderBy: { createdAt: 'desc' },
   });
   return c.json({ data: contacts });
@@ -47,7 +47,7 @@ export async function getContacts(c: Context) {
 
 // ADMIN: Export all contact submissions as CSV (opens in Excel)
 export async function exportContacts(c: Context) {
-  const contacts = await prisma.contactSubmission.findMany({
+  const contacts = await c.get('prisma').contactSubmission.findMany({
     orderBy: { createdAt: 'desc' },
   });
 
@@ -71,7 +71,7 @@ export async function exportContacts(c: Context) {
 export async function updateContact(c: Context) {
   const { id } = c.req.param();
   const { status, adminNotes } = (await c.req.json());
-  const contact = await prisma.contactSubmission.update({
+  const contact = await c.get('prisma').contactSubmission.update({
     where: { id },
     data: { status, adminNotes },
   });

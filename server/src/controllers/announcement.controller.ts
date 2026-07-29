@@ -3,7 +3,7 @@ import prisma from '../config/db.js';
 
 // PUBLIC: Get active announcements
 export async function getActiveAnnouncements(c: Context) {
-  const announcements = await prisma.announcement.findMany({
+  const announcements = await c.get('prisma').announcement.findMany({
     where: { isActive: true },
     orderBy: [{ displayOrder: 'asc' }, { createdAt: 'desc' }],
   });
@@ -12,7 +12,7 @@ export async function getActiveAnnouncements(c: Context) {
 
 // ADMIN: Get all announcements
 export async function getAllAnnouncements(c: Context) {
-  const announcements = await prisma.announcement.findMany({
+  const announcements = await c.get('prisma').announcement.findMany({
     orderBy: [{ displayOrder: 'asc' }, { createdAt: 'desc' }],
   });
   return c.json({ data: announcements });
@@ -20,7 +20,7 @@ export async function getAllAnnouncements(c: Context) {
 
 // ADMIN: Create announcement
 export async function createAnnouncement(c: Context) {
-  const announcement = await prisma.announcement.create({
+  const announcement = await c.get('prisma').announcement.create({
     data: (await c.req.json()),
   });
   return c.json({ data: announcement }, 201);
@@ -29,7 +29,7 @@ export async function createAnnouncement(c: Context) {
 // ADMIN: Update announcement
 export async function updateAnnouncement(c: Context) {
   const { id } = c.req.param();
-  const announcement = await prisma.announcement.update({
+  const announcement = await c.get('prisma').announcement.update({
     where: { id },
     data: (await c.req.json()),
   });
@@ -39,7 +39,7 @@ export async function updateAnnouncement(c: Context) {
 // ADMIN: Delete announcement
 export async function deleteAnnouncement(c: Context) {
   const { id } = c.req.param();
-  await prisma.announcement.delete({
+  await c.get('prisma').announcement.delete({
     where: { id },
   });
   return c.json({ success: true });

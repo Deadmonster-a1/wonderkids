@@ -3,7 +3,7 @@ import prisma from '../config/db.js';
 
 // PUBLIC: Get all settings as { key: value } map
 export async function getSettings(c: Context) {
-  const settings = await prisma.siteSetting.findMany();
+  const settings = await c.get('prisma').siteSetting.findMany();
   const map: Record<string, string> = {};
   settings.forEach((s) => {
     map[s.key] = s.value;
@@ -13,7 +13,7 @@ export async function getSettings(c: Context) {
 
 // ADMIN: Get all settings with full details
 export async function getAllSettings(c: Context) {
-  const settings = await prisma.siteSetting.findMany({
+  const settings = await c.get('prisma').siteSetting.findMany({
     orderBy: { group: 'asc' },
   });
   return c.json({ data: settings });
@@ -25,7 +25,7 @@ export async function updateSettings(c: Context) {
 
   await Promise.all(
     updates.map((u) =>
-      prisma.siteSetting.upsert({
+      c.get('prisma').siteSetting.upsert({
         where: { key: u.key },
         update: { value: u.value },
         create: { key: u.key, value: u.value, group: 'general' },

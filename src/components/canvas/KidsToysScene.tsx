@@ -290,7 +290,7 @@ export default function KidsToysScene() {
         <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow shadow-mapSize={1024} shadow-bias={-0.0001} />
         <directionalLight position={[-5, -10, -5]} intensity={0.4} color="#818CF8" />
         
-        <Environment preset="city" />
+        <ambientLight intensity={1.5} />
 
         <PresentationControls 
           global 
