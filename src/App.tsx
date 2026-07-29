@@ -41,7 +41,7 @@ export default function App() {
   useOrganizationJsonLd();
 
   return (
-    <div className="bg-surface font-body-md text-on-surface overflow-x-hidden relative selection:bg-primary selection:text-white min-h-screen flex flex-col transition-colors duration-300">
+    <div className="bg-surface font-body-md text-on-surface relative selection:bg-primary selection:text-white min-h-screen flex flex-col transition-colors duration-300">
       {!isAdmin && (
         <>
           <SmoothScroll />
