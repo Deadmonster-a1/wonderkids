@@ -8,9 +8,10 @@ CORS_ORIGIN = "http://localhost:5173"
 ADMIN_EMAIL = "masteraccess72@gmail.com"
 # ADMIN_PASSWORD and JWT_SECRET should be set via `wrangler secret put`
 
-[[r2_buckets]]
-binding = "UPLOAD_BUCKET"
-bucket_name = "wonderkids-uploads"
+# R2 has been replaced with KV to avoid billing requirements
+[[kv_namespaces]]
+binding = "UPLOADS"
+id = "803b86fdf89545efaaeb89eca51e63d3"
 
 # If using Prisma Accelerate, set DATABASE_URL via secret
 # If using Hyperdrive for direct DB connection:

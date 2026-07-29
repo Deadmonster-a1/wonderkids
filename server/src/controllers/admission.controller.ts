@@ -2,7 +2,6 @@ import { Context } from 'hono';
 import prisma from '../config/db.js';
 import { sendEmail, escapeHtml } from '../utils/email.js';
 import { toCsv } from '../utils/csv.js';
-import { env } from '../config/env.js';
 import { broadcastSSE } from '../utils/sse.js';
 import { templates } from '../utils/email.js';
 
@@ -16,7 +15,7 @@ export async function submitInquiry(c: Context) {
 
   // Notify admin via email
   sendEmail({
-    to: env.ADMIN_EMAIL,
+    to: (c.env as any).ADMIN_EMAIL,
     subject: `New Admission Inquiry: ${studentName} for ${gradeApplying}`,
     html: templates.adminAdmissionNotification({ studentName, parentName, email, phone, gradeApplying, message }),
   }).catch(() => {});

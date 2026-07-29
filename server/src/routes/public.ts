@@ -25,20 +25,22 @@ app.get('/gallery', getGallery);
 app.get('/faqs', getFaqs);
 app.get('/settings', getSettings);
 
-// Serve uploads from R2
+// Serve uploads from KV
 app.get('/public/uploads/:filename', async (c: any) => {
   const filename = c.req.param('filename');
-  const bucket = c.env.UPLOAD_BUCKET;
-  if (!bucket) return c.json({ error: 'R2 not configured' }, 500);
+  const kv = c.env.UPLOADS;
+  if (!kv) return c.json({ error: 'KV not configured' }, 500);
 
-  const object = await bucket.get(filename);
-  if (!object) return c.json({ error: 'Not found' }, 404);
+  const { value, metadata } = await kv.getWithMetadata(filename, 'arrayBuffer');
+  if (!value) return c.json({ error: 'Not found' }, 404);
 
   const headers = new Headers();
-  object.writeHttpMetadata(headers);
-  headers.set('etag', object.httpEtag);
+  if (metadata && metadata.contentType) {
+    headers.set('Content-Type', metadata.contentType as string);
+  }
+  headers.set('Cache-Control', 'public, max-age=31536000');
   
-  return new Response(object.body, { headers });
+  return new Response(value, { headers });
 });
 
 // SSE Endpoint

@@ -12,7 +12,7 @@ export async function authMiddleware(c: Context, next: Next) {
   const token = authHeader.split(' ')[1];
 
   try {
-    const payload = verifyToken(token);
+    const payload = await verifyToken(token, (c.env as any).JWT_SECRET);
     const admin = await prisma.admin.findUnique({
       where: { id: payload.id },
       select: { id: true, email: true, name: true, role: true },

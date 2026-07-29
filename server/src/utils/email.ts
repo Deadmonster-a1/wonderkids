@@ -1,5 +1,3 @@
-import { env } from '../config/env.js';
-
 interface EmailOptions {
   to: string;
   subject: string;
@@ -81,7 +79,7 @@ export const templates = {
       <div class="label">Message</div>
       <div class="value">${data.message ? escapeHtml(data.message) : '<i>No message provided</i>'}</div>
     </div>
-    <p style="margin-top: 24px; font-size: 14px;">Log in to the <a href="${env.APP_URL}/admin">Admin Dashboard</a> to manage this inquiry.</p>
+    <p style="margin-top: 24px; font-size: 14px;">Log in to the <a href="/admin">Admin Dashboard</a> to manage this inquiry.</p>
   `),
   
   parentAdmissionConfirmation: (data: any) => baseTemplate(`

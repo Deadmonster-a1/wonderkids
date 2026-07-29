@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { env } from './config/env.js';
 import publicRoutes from './routes/public.js';
 import adminRoutes from './routes/admin.js';
 
@@ -8,15 +7,18 @@ export type Env = {
   Bindings: {
     CORS_ORIGIN: string;
     ADMIN_EMAIL: string;
-    UPLOAD_BUCKET: R2Bucket;
+    UPLOADS: KVNamespace;
   };
 };
 
 const app = new Hono<Env>();
 
 // Middleware
-app.use('*', cors({ origin: env.CORS_ORIGIN, credentials: true }));
-
+app.use('*', async (c, next) => {
+  const origin = c.env.CORS_ORIGIN || '*';
+  const corsMiddleware = cors({ origin, credentials: true });
+  return corsMiddleware(c, next);
+});
 // Routes
 app.route('/api', publicRoutes);
 app.route('/api/admin', adminRoutes);

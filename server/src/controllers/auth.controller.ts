@@ -18,9 +18,9 @@ export async function login(c: Context) {
     return;
   }
 
-  const token = signToken({ id: admin.id, role: admin.role });
+  const token = await signToken({ id: admin.id, role: admin.role }, c.env.JWT_SECRET);
 
-  res.json({
+  return c.json({
     token,
     admin: {
       id: admin.id,
@@ -32,5 +32,5 @@ export async function login(c: Context) {
 }
 
 export async function getMe(c: Context) {
-  return c.json({ admin: req.admin });
+  return c.json({ admin: c.get('admin') });
 }
