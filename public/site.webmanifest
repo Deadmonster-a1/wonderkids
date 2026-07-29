@@ -1,0 +1,11 @@
+{
+  "name": "WonderKids School",
+  "short_name": "WonderKids",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ],
+  "theme_color": "#4338CA",
+  "background_color": "#F8FAFC",
+  "display": "standalone",
+  "start_url": "/"
+}
