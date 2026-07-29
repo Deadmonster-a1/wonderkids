@@ -92,34 +92,22 @@ const programs = [
   },
 ];
 
-const StickyProgramCard = ({
+const ProgramCard = ({
   i,
   program,
-  progress,
-  range,
-  targetScale,
 }: {
   i: number;
   program: typeof programs[0];
-  progress: any;
-  range: [number, number];
-  targetScale: number;
   key?: React.Key;
 }) => {
-  const container = useRef<HTMLDivElement>(null);
-  const scale = useTransform(progress, range, [1, targetScale]);
-
   return (
-    <div
-      ref={container}
-      className="sticky top-0 flex items-center justify-center w-full h-screen"
-    >
+    <div className="w-full mb-12 last:mb-0">
       <motion.div
-        style={{
-          scale,
-          top: `calc(-5vh + ${i * 30}px)`,
-        }}
-        className="relative w-full max-w-4xl origin-top"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: i * 0.1 }}
+        className="relative w-full origin-top"
       >
         <TiltCard maxRotation={4} scale={1.01} className="w-full">
           <div className={`glass bg-white/90 dark:bg-brand-navy/90 rounded-[3rem] md:rounded-[4rem] p-8 md:p-12 lg:p-20 shadow-2xl border-4 md:border-8 border-white/50 dark:border-white/10 ${program.theme.border} transition-colors duration-500 relative flex flex-col items-start overflow-hidden group`}>
@@ -156,12 +144,6 @@ const StickyProgramCard = ({
 };
 
 export default function ProgramsPage() {
-  const container = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start start", "end end"],
-  });
-
   useSeo({
     title: 'Our Programs | WonderKids Nursery to Grade 10',
     description: 'A complete educational journey from Nursery to Grade 10 — built on curiosity, rigour, and care. Explore our Pre-Primary, Primary, Middle, and Secondary programs.',
@@ -206,25 +188,16 @@ export default function ProgramsPage() {
             </div>
           </div>
           
-          {/* Scrolling Stack Content */}
+          {/* Scrolling Content */}
           <div className="lg:col-span-8 col-span-1">
-            <main
-              ref={container}
-              className="relative flex w-full flex-col items-center justify-center pb-[30vh]"
-            >
-              {programs.map((program, i) => {
-                const targetScale = Math.max(0.85, 1 - (programs.length - i - 1) * 0.05);
-                return (
-                  <StickyProgramCard
-                    key={`p_${i}`}
-                    i={i}
-                    program={program}
-                    progress={scrollYProgress}
-                    range={[i * 0.15, 1]}
-                    targetScale={targetScale}
-                  />
-                );
-              })}
+            <main className="relative flex w-full flex-col items-center justify-center gap-8 md:gap-16">
+              {programs.map((program, i) => (
+                <ProgramCard
+                  key={`p_${i}`}
+                  i={i}
+                  program={program}
+                />
+              ))}
             </main>
           </div>
           
