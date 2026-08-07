@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment, ContactShadows, PresentationControls } from '@react-three/drei';
+import { Float, Environment, Sparkles, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 // --- Cute Face Component ---
@@ -278,7 +278,10 @@ export default function KidsToysScene() {
       </div>
 
       {/* 3D Canvas */}
-      <div className={`w-full h-full absolute inset-0 transition-opacity duration-1000 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div 
+        className={`w-full h-full absolute inset-0 transition-opacity duration-1000 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        style={{ WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)', maskImage: 'radial-gradient(circle, black 60%, transparent 100%)' }}
+      >
         <Canvas 
           onCreated={() => setIsLoaded(true)}
         dpr={[1, 1.5]} 
@@ -311,10 +314,12 @@ export default function KidsToysScene() {
             <CartoonCloud position={[-2.5, -1.2, 1.2]} scale={1.1} color="#FFFFFF" />
             <CartoonCloud position={[2.4, -0.8, -1.5]} scale={1.4} color="#F8FAFC" />
             <CartoonCloud position={[0, -1.5, 1.8]} scale={0.8} color="#F1F5F9" />
+            
+            {/* Magical Sparkles */}
+            <Sparkles count={80} scale={12} size={3} speed={0.2} opacity={0.6} color="#FFD700" />
+            <Sparkles count={40} scale={10} size={5} speed={0.4} opacity={0.3} color="#FFFFFF" />
           </group>
         </PresentationControls>
-        
-        <ContactShadows position={[0, -1.5, 0]} opacity={0.4} scale={15} blur={2.5} far={4} color="#1E1B4B" resolution={256} frames={1} />
         </Canvas>
       </div>
     </div>

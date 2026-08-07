@@ -86,6 +86,8 @@ export default function AnnouncementPopup() {
                 <img
                   src={current.imageUrl}
                   alt={current.title}
+                  width="400"
+                  height="200"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="lazy"
                 />

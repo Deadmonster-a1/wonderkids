@@ -117,6 +117,8 @@ export default function Gallery() {
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      width="600"
+                      height="400"
                       className="w-full h-auto block transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
                     />
@@ -160,7 +162,10 @@ export default function Gallery() {
               <img
                 src={filtered[lightboxIndex].imageUrl.replace('w=600', 'w=1600')}
                 alt={filtered[lightboxIndex].title}
+                width="1600"
+                height="1067"
                 className="max-w-full max-h-[85vh] rounded-[2rem] shadow-2xl border-4 md:border-8 border-white/80"
+                loading="lazy"
               />
               
               {/* Controls */}

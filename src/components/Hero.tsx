@@ -4,7 +4,6 @@ import { Play, ArrowRight, Star, ShieldCheck, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MagneticButton from './ui/MagneticButton';
 
-const Scene = lazy(() => import('./canvas/Scene'));
 const KidsToysScene = lazy(() => import('./canvas/KidsToysScene'));
 
 export default function Hero() {
@@ -30,14 +29,7 @@ export default function Hero() {
       ref={containerRef}
       className="relative min-h-[100svh] flex items-center pt-28 pb-40 lg:pb-56 overflow-hidden bg-gradient-to-b from-brand-light to-white dark:from-brand-navy dark:to-brand-navy"
     >
-      {/* 3D Background */}
-      <Suspense fallback={
-        <div className="absolute inset-0 flex items-center justify-center bg-brand-light/50 dark:bg-brand-navy/50 backdrop-blur-sm z-0">
-          <div className="w-12 h-12 border-4 border-brand-indigo/20 border-t-brand-indigo rounded-full animate-spin"></div>
-        </div>
-      }>
-        <Scene />
-      </Suspense>
+      {/* 3D Background removed for flat UI */}
 
       <motion.div 
         className="max-w-7xl mx-auto px-6 relative z-10 w-full"
@@ -64,22 +56,22 @@ export default function Hero() {
 
             {/* Headline */}
             <motion.h1 
-              className="text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6.5rem] font-black tracking-tight leading-[1.1] text-brand-navy dark:text-white mb-6 drop-shadow-sm font-display-lg"
+              className="text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6.5rem] font-bold tracking-tight leading-[1.1] text-brand-navy dark:text-white mb-6 font-display drop-shadow-sm"
             >
               <motion.span
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 className="inline-block"
               >
                 Empowering
               </motion.span>
               <br className="hidden lg:block" />
               <motion.span
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.35, type: "spring", stiffness: 100 }}
-                className="inline-block text-gradient mt-2"
+                transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                className="inline-block text-brand-indigo mt-2"
               >
                 Every Learner.
               </motion.span>
@@ -104,14 +96,14 @@ export default function Hero() {
             >
               <Link 
                 to="/admissions"
-                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-brand-indigo hover:bg-brand-violet text-white rounded-full font-bold text-lg md:text-xl flex items-center justify-center gap-3 border-4 border-white/20 hover:border-white/40 transition-colors duration-300 shadow-lg"
+                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-brand-indigo hover:bg-brand-violet text-white rounded-2xl font-bold text-lg md:text-xl flex items-center justify-center gap-3 border-4 border-transparent hover:border-white/20 transition-all duration-300 shadow-md"
               >
                 Apply for 2025–26 <ArrowRight className="w-5 md:w-6 h-5 md:h-6" />
               </Link>
               
               <Link 
                 to="/programs"
-                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-white dark:bg-brand-navy/60 text-brand-navy dark:text-white rounded-full font-bold text-lg md:text-xl flex items-center justify-center gap-3 border-4 border-brand-indigo/20 hover:border-brand-indigo/60 transition-colors duration-300 shadow-md"
+                className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-white dark:bg-brand-navy/60 text-brand-navy dark:text-white rounded-2xl font-bold text-lg md:text-xl flex items-center justify-center gap-3 border-4 border-slate-100 dark:border-white/10 hover:border-brand-indigo/30 transition-all duration-300 shadow-sm"
               >
                 <div className="w-8 md:w-10 h-8 md:h-10 rounded-full bg-brand-indigo/10 flex items-center justify-center text-brand-indigo">
                   <Play className="w-4 md:w-5 h-4 md:h-5 fill-current" />
@@ -126,11 +118,14 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3, type: "spring" }}
-            className="relative lg:h-[600px] flex items-center justify-center"
+            className="relative min-h-[350px] sm:min-h-[400px] lg:h-[600px] flex items-center justify-center mt-12 lg:mt-0"
             style={{ y: y2 }}
           >
-            {/* 3D Kids Elements */}
-            <div className="relative w-full aspect-[4/5] lg:aspect-square z-10 group flex items-center justify-center">
+            {/* Glowing Aura Backdrop */}
+            <div className="absolute inset-0 bg-brand-indigo/10 dark:bg-brand-indigo/20 rounded-full blur-[80px] md:blur-[120px] animate-pulse pointer-events-none z-0 scale-90 lg:scale-100"></div>
+
+            {/* 3D Kids Elements Restored (Moon & Stars) */}
+            <div className="relative w-full aspect-square z-10 group flex items-center justify-center">
               <Suspense fallback={
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-12 h-12 border-4 border-brand-indigo/20 border-t-brand-indigo rounded-full animate-spin drop-shadow-md"></div>

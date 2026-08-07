@@ -3,13 +3,7 @@ import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'mot
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useOrganizationJsonLd } from './hooks/useSeo';
-
-function SmoothScroll() {
-  useSmoothScroll();
-  return null;
-}
 // Pages
 import Home from './pages/Home';
 import ProgramsPage from './pages/ProgramsPage';
@@ -43,10 +37,7 @@ export default function App() {
   return (
     <div className="bg-surface font-body-md text-on-surface relative selection:bg-primary selection:text-white min-h-screen flex flex-col transition-colors duration-300">
       {!isAdmin && (
-        <>
-          <SmoothScroll />
-          <Header />
-        </>
+        <Header />
       )}
       
       <main className={`relative z-10 flex-grow ${!isAdmin ? 'pt-24' : ''}`}>

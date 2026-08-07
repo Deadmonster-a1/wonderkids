@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { Leaf, BookOpen, FlaskConical, GraduationCap, Trophy } from 'lucide-react';
 import WaveDivider from '../components/WaveDivider';
 import CTA from '../components/CTA';
-import ReactLenis from 'lenis/react';
 import PageHero3D from '../components/PageHero3D';
 import TiltCard from '../components/ui/TiltCard';
 import { useSeo } from '../hooks/useSeo';
@@ -151,7 +150,7 @@ export default function ProgramsPage() {
   });
 
   return (
-    <ReactLenis root>
+    <>
       <PageWrapper className="pt-20 md:pt-24 pb-16 md:pb-20">
         
         <PageHero3D 
@@ -206,6 +205,6 @@ export default function ProgramsPage() {
         <WaveDivider color="var(--sky)" flip />
         <CTA />
       </PageWrapper>
-    </ReactLenis>
+    </>
   );
 }

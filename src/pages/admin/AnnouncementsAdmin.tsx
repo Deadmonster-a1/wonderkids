@@ -268,7 +268,7 @@ export default function AnnouncementsAdmin() {
                 <label className="block text-sm font-bold text-brand-navy dark:text-white mb-2">Announcement Image (Optional)</label>
                 {formData.imageUrl && (
                   <div className="mb-2 relative inline-block">
-                    <img src={formData.imageUrl} alt="Announcement" className="h-32 rounded-lg object-cover" />
+                    <img src={formData.imageUrl} alt="Announcement" width="300" height="128" className="h-32 rounded-lg object-cover" />
                     <button type="button" onClick={() => setFormData({...formData, imageUrl: ''})} className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                       <X className="w-4 h-4" />
                     </button>

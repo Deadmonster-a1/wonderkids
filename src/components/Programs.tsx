@@ -79,7 +79,7 @@ export default function Programs() {
           <p className="font-label-caps text-xs tracking-widest uppercase font-bold mb-3 text-brand-indigo">
             Educational Pathways
           </p>
-          <h2 className="font-display-md text-3xl md:text-4xl font-black text-brand-navy dark:text-white mb-4 tracking-tight">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-4 tracking-tight">
             Designed for Every Stage
           </h2>
           <p className="max-w-2xl mx-auto text-brand-slate text-base md:text-lg">
@@ -111,14 +111,14 @@ export default function Programs() {
               <motion.div
                 key={program.id}
                 layout
-                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="h-full"
               >
                 <SpotlightCard className="h-full rounded-2xl">
-                  <div className="glass dark:glass-dark rounded-2xl p-6 hover:-translate-y-2 hover:shadow-xl hover:glow-indigo transition-all duration-300 group flex flex-col h-full relative z-10">
+                  <div className="glass dark:glass-dark rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group flex flex-col h-full relative z-10 border-white/40">
                     <div className="flex justify-between items-start mb-6">
                       <div className="w-12 h-12 rounded-xl bg-slate-50/50 dark:bg-white/10 flex items-center justify-center border border-slate-100/50 dark:border-white/10 group-hover:scale-110 transition-transform duration-300">
                         {program.icon}
@@ -158,7 +158,7 @@ export default function Programs() {
         <div className="text-center mt-12">
           <Link
             to="/programs"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm bg-brand-navy dark:bg-white text-white dark:text-brand-navy hover:bg-brand-indigo dark:hover:bg-brand-indigo dark:hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-brand-navy dark:bg-white text-white dark:text-brand-navy hover:bg-brand-indigo dark:hover:bg-brand-indigo dark:hover:text-white transition-colors shadow-sm"
           >
             Explore Curriculum details
             <ArrowRight className="w-4 h-4" />

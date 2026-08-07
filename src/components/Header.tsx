@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, BookOpen, Users, Info, GraduationCap, Phone, Sun, Moon } from 'lucide-react';
+import { Menu, X, BookOpen, Users, Info, GraduationCap, Phone, Sun, Moon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 const navLinks = [
-  { name: 'Home', path: '/', icon: <span className="text-lg">🏫</span> },
+  { name: 'Home', path: '/', icon: <Home className="w-5 h-5" /> },
   { name: 'Academics', path: '/academics', icon: <BookOpen className="w-5 h-5" /> },
   { name: 'Programs', path: '/programs', icon: <GraduationCap className="w-5 h-5" /> },
   { name: 'About', path: '/about', icon: <Info className="w-5 h-5" /> },
@@ -52,12 +52,11 @@ export default function Header() {
           {/* Logo Area */}
           <Link to="/" className="flex flex-col group">
             <div className="flex items-center gap-2">
-              <span className="text-2xl sm:text-3xl transition-transform group-hover:scale-110 group-hover:rotate-[-5deg]">🎓</span>
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-brand-navy dark:text-white">
-                Wonder<span className="text-brand-indigo">Kids</span>
+              <span className="text-xl sm:text-2xl font-display font-bold tracking-tight text-brand-navy dark:text-white">
+                Wonder<span className="text-brand-coral">Kids</span>
               </span>
             </div>
-            <span className="text-[10px] uppercase tracking-widest text-brand-slate font-semibold ml-9 hidden sm:block">
+            <span className="text-[10px] uppercase tracking-widest text-brand-slate font-medium ml-1 hidden sm:block">
               Nursery · Primary · Secondary
             </span>
           </Link>

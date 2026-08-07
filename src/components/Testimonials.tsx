@@ -115,11 +115,14 @@ export default function Testimonials() {
                       <div className="shrink-0 relative">
                         <div className="w-20 h-20 md:w-28 md:h-28 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border-4 border-white shadow-xl relative z-10 bg-slate-100 flex items-center justify-center transform -rotate-3">
                           {testimonials[currentIndex]?.imageUrl ? (
-                            <img 
-                              src={testimonials[currentIndex].imageUrl} 
-                              alt={testimonials[currentIndex].name}
-                              className="w-full h-full object-cover scale-110"
-                            />
+                              <img 
+                                src={testimonials[currentIndex].imageUrl} 
+                                alt={testimonials[currentIndex].name}
+                                width="200"
+                                height="200"
+                                className="w-full h-full object-cover scale-110"
+                                loading="lazy"
+                              />
                           ) : (
                             <span className="text-3xl font-black text-brand-indigo">{testimonials[currentIndex]?.name?.charAt(0)}</span>
                           )}

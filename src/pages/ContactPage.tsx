@@ -56,10 +56,10 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 md:mb-32 mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 relative">
         
         {/* Floating background elements for the contact section */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-primary/10 via-secondary/10 to-tertiary/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-brand-light via-brand-sky/10 to-brand-coral/5 blur-[100px] -z-10 rounded-full pointer-events-none" />
         
         {/* Contact Info - Glassmorphic TiltCard */}
-        <TiltCard maxRotation={4} scale={1.02} className="h-full">
+        <TiltCard maxRotation={2} scale={1.01} className="h-full">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -71,7 +71,7 @@ export default function ContactPage() {
             <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-primary/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-48 md:w-72 h-48 md:h-72 bg-tertiary/30 rounded-full blur-[60px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
             
-            <h2 className="font-display-md text-4xl md:text-5xl font-bold relative z-10 drop-shadow-md">Get in Touch</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-bold relative z-10 drop-shadow-sm">Get in Touch</h2>
             <p className="text-white/80 font-medium text-lg relative z-10 -mt-4">We would love to hear from you. Drop us a line!</p>
             
             <div className="space-y-6 md:space-y-8 relative z-10 flex-grow mt-2">
@@ -104,42 +104,42 @@ export default function ContactPage() {
         </TiltCard>
 
         {/* Contact Form - Clean, bouncy, bubbly UI */}
-        <TiltCard maxRotation={2} className="h-full">
+        <TiltCard maxRotation={1} className="h-full">
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100 }}
-            className="bg-slate-50 dark:bg-brand-navy/95 p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-[0_20px_50px_rgba(0,_0,_0,_0.05)] border-4 md:border-[6px] border-white dark:border-white/10 h-full relative"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="bg-white dark:bg-brand-navy/95 p-8 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-slate-100 dark:border-white/10 h-full relative"
           >
             {submitted ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="flex flex-col items-center justify-center text-center h-full gap-4 md:gap-6 py-12"
               >
                 <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
-                  className="w-20 md:w-28 h-20 md:h-28 bg-gradient-to-tr from-primary to-secondary border-4 border-white shadow-xl rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+                  className="w-20 md:w-28 h-20 md:h-28 bg-gradient-to-tr from-brand-indigo to-brand-violet border-4 border-white shadow-md rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center"
                 >
                   <CheckCircle className="w-10 md:w-16 h-10 md:h-16 text-white" />
                 </motion.div>
-                <h3 className="font-display-sm text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mt-4">Message Sent! 🎉</h3>
-                <p className="text-lg md:text-xl text-brand-slate max-w-sm font-medium">We'll get back to you within 24 hours. Can't wait to chat!</p>
+                <h3 className="font-display text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mt-4">Message Sent</h3>
+                <p className="text-lg md:text-xl text-brand-slate max-w-sm font-medium">We'll get back to you within 24 hours. We look forward to connecting with you.</p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: '', email: '', message: '' }); }}
-                  className="mt-4 md:mt-6 px-6 md:px-8 py-3 md:py-4 text-primary font-bold text-base md:text-lg rounded-full bg-primary/10 hover:bg-primary/20 transition-colors shadow-sm"
+                  className="mt-4 md:mt-6 px-6 md:px-8 py-3 md:py-4 text-brand-indigo font-bold text-base md:text-lg rounded-xl bg-brand-indigo/10 hover:bg-brand-indigo/20 transition-colors shadow-sm"
                 >
                   Send another message
                 </button>
               </motion.div>
             ) : (
               <>
-                <h2 className="font-display-sm text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-8 md:mb-10 flex items-center gap-3">
-                  Send a Message <span className="inline-block animate-bounce">👋</span>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-8 md:mb-10 flex items-center gap-3">
+                  Send a Message
                 </h2>
                 <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit} noValidate>
                   <div className="space-y-2 md:space-y-3">
@@ -191,7 +191,7 @@ export default function ContactPage() {
                     whileTap={{ scale: submitting ? 1 : 0.98 }}
                     type="submit"
                     disabled={submitting}
-                    className={`px-6 md:px-10 py-4 md:py-5 text-white font-display-sm text-xl md:text-2xl font-bold rounded-2xl md:rounded-3xl w-full flex items-center justify-center gap-4 transition-all duration-300 shadow-[0_10px_20px_rgba(8,_112,_184,_0.3)] hover:shadow-[0_15px_30px_rgba(8,_112,_184,_0.4)] mt-4 ${submitting ? 'bg-primary/70 cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
+                    className={`px-6 md:px-10 py-4 md:py-5 text-white font-display text-xl md:text-2xl font-bold rounded-2xl w-full flex items-center justify-center gap-4 transition-all duration-300 shadow-md hover:shadow-lg mt-4 ${submitting ? 'bg-brand-indigo/70 cursor-not-allowed' : 'bg-brand-indigo hover:bg-brand-violet'}`}
                   >
                     {submitting ? (
                       <>Sending Magic... <Loader2 className="w-6 h-6 animate-spin" /></>

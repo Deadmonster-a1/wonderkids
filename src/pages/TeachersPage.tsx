@@ -45,9 +45,9 @@ export default function TeachersPage() {
 
   const getColorClasses = (colorTheme: string) => {
     switch (colorTheme) {
-      case 'primary': return { bg: 'bg-primary', light: 'bg-primary/20', text: 'text-primary', badge: 'bg-primary text-white' };
-      case 'secondary': return { bg: 'bg-secondary', light: 'bg-secondary/20', text: 'text-secondary', badge: 'bg-secondary text-white' };
-      case 'tertiary': return { bg: 'bg-tertiary', light: 'bg-tertiary/20', text: 'text-tertiary', badge: 'bg-tertiary text-white' };
+      case 'primary': return { bg: 'bg-brand-navy', light: 'bg-brand-navy/10', text: 'text-brand-navy', badge: 'bg-brand-navy text-white' };
+      case 'secondary': return { bg: 'bg-brand-coral', light: 'bg-brand-coral/10', text: 'text-brand-coral', badge: 'bg-brand-coral text-white' };
+      case 'tertiary': return { bg: 'bg-brand-indigo', light: 'bg-brand-indigo/10', text: 'text-brand-indigo', badge: 'bg-brand-indigo text-white' };
       default: return { bg: 'bg-slate-500', light: 'bg-slate-200', text: 'text-slate-600', badge: 'bg-slate-500 text-white' };
     }
   };
@@ -55,7 +55,7 @@ export default function TeachersPage() {
   return (
     <PageWrapper className="pt-20 md:pt-24 pb-16 md:pb-20">
       <PageHero3D 
-        title={<>Our <span className="text-gradient">Teachers</span></>}
+        title={<>Our <span className="text-brand-indigo">Teachers</span></>}
         description="Meet the passionate, certified educators who make the magic happen every day at WonderKids."
         color="primary"
       />
@@ -74,10 +74,10 @@ export default function TeachersPage() {
             { value: '25+', label: 'Staff Members' },
             { value: '1:6', label: 'Teacher–Child Ratio' },
           ].map(({ value, label }, i) => (
-            <TiltCard key={label} maxRotation={15} scale={1.1}>
-              <div className="bg-white/90 dark:bg-brand-navy/90 glass-dark px-6 md:px-10 py-4 md:py-6 rounded-[1.5rem] md:rounded-[2rem] border-2 md:border-4 border-white dark:border-white/10 shadow-xl flex flex-col items-center justify-center min-w-[150px] md:min-w-[200px]">
-                <div className="text-3xl md:text-4xl font-black text-primary font-display-lg drop-shadow-sm mb-1 md:mb-2">{value}</div>
-                <div className="text-[10px] md:text-xs text-on-surface-variant dark:text-slate-300 font-bold uppercase tracking-widest">{label}</div>
+            <TiltCard key={label} maxRotation={2} scale={1.02}>
+              <div className="bg-white/90 dark:bg-brand-navy/90 glass-dark px-6 md:px-10 py-4 md:py-6 rounded-2xl border border-slate-100 dark:border-white/10 shadow-sm flex flex-col items-center justify-center min-w-[150px] md:min-w-[200px]">
+                <div className="text-3xl md:text-4xl font-bold text-brand-navy dark:text-white font-display drop-shadow-sm mb-1 md:mb-2">{value}</div>
+                <div className="text-[10px] md:text-xs text-brand-slate font-medium uppercase tracking-widest">{label}</div>
               </div>
             </TiltCard>
           ))}
@@ -90,13 +90,13 @@ export default function TeachersPage() {
               const colors = getColorClasses(teacher.colorTheme);
               
               return (
-                <TiltCard key={teacher.id} maxRotation={10} scale={1.03} className="h-full">
+                <TiltCard key={teacher.id} maxRotation={2} scale={1.01} className="h-full">
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 20, delay: i * 0.1 }}
-                    className="bg-white/90 dark:bg-brand-navy/90 glass-dark rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-8 md:p-10 shadow-xl border-4 border-white dark:border-white/10 flex flex-col h-full relative overflow-hidden group"
+                    transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
+                    className="bg-white/90 dark:bg-brand-navy/90 rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 dark:border-white/10 flex flex-col h-full relative overflow-hidden group"
                   >
                     {/* Background glow on hover */}
                     <div className={`absolute top-0 right-0 w-32 md:w-48 h-32 md:h-48 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -translate-y-1/2 translate-x-1/2 ${colors.bg}`} />
@@ -104,20 +104,20 @@ export default function TeachersPage() {
                     {/* Avatar + Badge */}
                     <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8 relative z-10">
                       <div className="relative">
-                        <div className={`w-20 md:w-24 h-20 md:h-24 rounded-[1rem] md:rounded-[1.5rem] overflow-hidden border-4 border-white shadow-lg bg-white flex items-center justify-center transform group-hover:scale-105 group-hover:-rotate-3 transition-transform duration-300`}>
+                        <div className={`w-20 md:w-24 h-20 md:h-24 rounded-[1.25rem] overflow-hidden border border-slate-100 shadow-sm bg-white flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500 ease-out`}>
                           {teacher.avatarUrl ? (
-                            <img src={teacher.avatarUrl} alt={teacher.name} className="w-full h-full object-cover" loading="lazy" />
+                            <img src={teacher.avatarUrl} alt={teacher.name} width="200" height="200" className="w-full h-full object-cover" loading="lazy" />
                           ) : (
-                            <span className={`text-3xl md:text-4xl font-display-md font-black ${colors.text}`}>{teacher.name.charAt(0)}</span>
+                            <span className={`text-3xl md:text-4xl font-display font-bold ${colors.text}`}>{teacher.name.charAt(0)}</span>
                           )}
                         </div>
-                        <div className={`absolute -bottom-2 -right-2 md:-bottom-3 md:-right-3 w-8 md:w-10 h-8 md:h-10 ${colors.bg} text-white rounded-full flex items-center justify-center border-4 border-white shadow-md transform group-hover:rotate-12 transition-transform duration-300`}>
-                          <Icon className="w-4 md:w-5 h-4 md:h-5" />
+                        <div className={`absolute -bottom-2 -right-2 w-8 h-8 ${colors.bg} text-white rounded-full flex items-center justify-center shadow-sm`}>
+                          <Icon className="w-4 h-4" />
                         </div>
                       </div>
                       <div>
-                        <h2 className="font-display-sm font-bold text-brand-navy dark:text-white text-xl md:text-2xl leading-tight mb-1">{teacher.name}</h2>
-                        <p className={`text-xs md:text-sm font-bold ${colors.text} uppercase tracking-wider font-label-caps`}>{teacher.title}</p>
+                        <h2 className="font-display font-bold text-brand-navy dark:text-white text-xl md:text-2xl leading-tight mb-1">{teacher.name}</h2>
+                        <p className={`text-xs md:text-sm font-medium ${colors.text} uppercase tracking-widest`}>{teacher.title}</p>
                       </div>
                     </div>
 

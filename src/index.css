@@ -1,14 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-brand-navy: #0f172a;
-  --color-brand-dark: #020617;
-  --color-brand-indigo: #4f46e5;
-  --color-brand-violet: #7c3aed;
-  --color-brand-coral: #FF6B6B;
-  --color-brand-sky: #0ea5e9;
-  --color-brand-slate: #475569;
-  --color-brand-light: #f8fafc;
+  --color-brand-navy: #052659;
+  --color-brand-dark: #021024;
+  --color-brand-indigo: #5483B3;
+  --color-brand-violet: #7DA0CA;
+  --color-brand-coral: #7DA0CA;
+  --color-brand-sky: #C1E8FF;
+  --color-brand-slate: #5483B3;
+  --color-brand-light: #F8FAFC;
   
   /* Semantic Colors mapped to dynamic CSS variables */
   --color-primary: var(--primary);
@@ -19,7 +20,7 @@
   --color-on-surface-variant: var(--on-surface-variant);
   
   /* Typography */
-  --font-display: "Outfit", sans-serif;
+  --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Inter", sans-serif;
   --font-display-lg: var(--font-display);
   --font-display-md: var(--font-display);
@@ -35,21 +36,21 @@
 
 @layer base {
   :root {
-    --primary: var(--color-brand-indigo);
-    --secondary: var(--color-brand-coral);
+    --primary: var(--color-brand-navy);
+    --secondary: var(--color-brand-indigo);
     --tertiary: var(--color-brand-sky);
     --surface: var(--color-brand-light);
     --on-surface: var(--color-brand-dark);
-    --on-surface-variant: var(--color-brand-slate);
+    --on-surface-variant: var(--color-brand-indigo);
   }
   
   .dark {
     --primary: var(--color-brand-indigo);
-    --secondary: var(--color-brand-coral);
+    --secondary: var(--color-brand-violet);
     --tertiary: var(--color-brand-sky);
-    --surface: var(--color-brand-navy);
+    --surface: var(--color-brand-dark);
     --on-surface: var(--color-brand-light);
-    --on-surface-variant: #94a3b8;
+    --on-surface-variant: var(--color-brand-sky);
   }
 
   html {
@@ -90,31 +91,30 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* Global Shadow & Effect Removal for Flat UI (REMOVED: Restored elegant shadows for premium cards) */
 }
 
 @layer utilities {
   .glass {
     background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(193, 232, 255, 0.4);
   }
   
   .dark .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(5, 38, 89, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(193, 232, 255, 0.15);
   }
 
   .glass-dark {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(5, 38, 89, 0.45);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(193, 232, 255, 0.2);
   }
   
   .glow-indigo {
@@ -134,6 +134,37 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .premium-shadow {
+    box-shadow: 0 10px 40px -10px rgba(26, 54, 93, 0.08), 0 4px 12px -4px rgba(26, 54, 93, 0.05);
+  }
+  .dark .premium-shadow {
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 4px 12px -4px rgba(0, 0, 0, 0.3);
+  }
+
+  .premium-glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(193, 232, 255, 0.6);
+  }
+  .dark .premium-glass {
+    background: rgba(5, 38, 89, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(193, 232, 255, 0.15);
+  }
+  
+  .premium-card-hover {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .premium-card-hover:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 50px -10px rgba(26, 54, 93, 0.15), 0 8px 20px -8px rgba(26, 54, 93, 0.1);
+  }
+  .dark .premium-card-hover:hover {
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 8px 20px -8px rgba(0, 0, 0, 0.5);
   }
 }
 

@@ -88,10 +88,10 @@ export default function FeeStructure() {
                 className={plan.isPopular ? 'lg:scale-105 z-10' : ''}
               >
                 <TiltCard maxRotation={4} scale={1.02}>
-                  <div className={`h-full relative bg-white/90 dark:bg-brand-navy/90 glass-dark rounded-[2rem] md:rounded-[3rem] p-8 md:p-10 transition-all duration-300 ${
+                  <div className={`h-full relative premium-glass premium-shadow rounded-[2rem] md:rounded-[3rem] p-8 md:p-10 transition-all duration-300 ${
                     plan.isPopular 
-                      ? 'border-4 md:border-8 border-brand-indigo/50 shadow-2xl' 
-                      : 'border-4 md:border-8 border-white/50 dark:border-white/10 shadow-lg hover:shadow-xl'
+                      ? 'border-4 md:border-8 border-brand-indigo/50' 
+                      : 'border-4 md:border-8 border-white/50 dark:border-white/10'
                   }`}>
                     {plan.isPopular && (
                       <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-20">
